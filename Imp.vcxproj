@@ -1,0 +1,274 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Dist|x64">
+      <Configuration>Dist</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{EBF7870B-5701-887C-E07C-9E7C4C85937C}</ProjectGuid>
+    <IgnoreWarnCompileDuplicatedFilename>true</IgnoreWarnCompileDuplicatedFilename>
+    <Keyword>Win32Proj</Keyword>
+    <RootNamespace>Imp</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0.18362.0</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <CharacterSet>NotSet</CharacterSet>
+    <PlatformToolset>v142</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <CharacterSet>NotSet</CharacterSet>
+    <PlatformToolset>v142</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Dist|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <CharacterSet>NotSet</CharacterSet>
+    <PlatformToolset>v142</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+    <Import Project="..\win_flex_bison3-latest\custom_build_rules\win_flex_bison\win_flex_bison_custom_build.props" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Dist|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <LinkIncremental>true</LinkIncremental>
+    <OutDir>..\bin\Debug-windows-x86_64\Imp\</OutDir>
+    <IntDir>..\bin-int\Debug-windows-x86_64\Imp\</IntDir>
+    <TargetName>Imp</TargetName>
+    <TargetExt>.exe</TargetExt>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <LinkIncremental>false</LinkIncremental>
+    <OutDir>..\bin\Release-windows-x86_64\Imp\</OutDir>
+    <IntDir>..\bin-int\Release-windows-x86_64\Imp\</IntDir>
+    <TargetName>Imp</TargetName>
+    <TargetExt>.exe</TargetExt>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Dist|x64'">
+    <LinkIncremental>false</LinkIncremental>
+    <OutDir>..\bin\Dist-windows-x86_64\Imp\</OutDir>
+    <IntDir>..\bin-int\Dist-windows-x86_64\Imp\</IntDir>
+    <TargetName>Imp</TargetName>
+    <TargetExt>.exe</TargetExt>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>IMP_PLATFORM_WINDOWS;IMP_BUILD_DLL;IMP_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>..\%src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+      <Optimization>Disabled</Optimization>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <LanguageStandard>stdcpp14</LanguageStandard>
+      <OpenMPSupport>false</OpenMPSupport>
+      <CompileAs>Default</CompileAs>
+      <DisableSpecificWarnings>
+      </DisableSpecificWarnings>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>C:\Users\mulli\OneDrive\dev\Imp\src\pelib-master\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+    <PostBuildEvent>
+      <Command>
+      </Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>IMP_PLATFORM_WINDOWS;IMP_BUILD_DLL;IMP_RELEASE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>..\%src;C:\Users\mulli\OneDrive\dev\Imp\src\pelib-master\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <Optimization>Full</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <MinimalRebuild>false</MinimalRebuild>
+      <StringPooling>true</StringPooling>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <LanguageStandard>stdcpp14</LanguageStandard>
+      <OpenMPSupport>false</OpenMPSupport>
+      <CompileAs>Default</CompileAs>
+      <DisableSpecificWarnings>
+      </DisableSpecificWarnings>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalLibraryDirectories>C:\Users\mulli\OneDrive\dev\Imp\src\pelib-master\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>pelib.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+    <PostBuildEvent>
+      <Command>
+      </Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Dist|x64'">
+    <ClCompile>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>IMP_PLATFORM_WINDOWS;IMP_BUILD_DLL;IMP_DIST;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>..\%src;C:\Users\mulli\OneDrive\dev\Imp\src\pelib-master\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <Optimization>Full</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <MinimalRebuild>false</MinimalRebuild>
+      <StringPooling>true</StringPooling>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <LanguageStandard>stdcpp14</LanguageStandard>
+      <OpenMPSupport>false</OpenMPSupport>
+      <CompileAs>Default</CompileAs>
+      <DisableSpecificWarnings>
+      </DisableSpecificWarnings>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalLibraryDirectories>C:\Users\mulli\OneDrive\dev\Imp\src\pelib-master\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>pelib.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+    <PostBuildEvent>
+      <Command>
+      </Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClInclude Include="array.h" />
+    <ClInclude Include="codegen.h" />
+    <ClInclude Include="emit_util.h" />
+    <ClInclude Include="falcon_arguments.h" />
+    <ClInclude Include="falcon_string.h" />
+    <ClInclude Include="file_io.h" />
+    <ClInclude Include="imp.tab.h" />
+    <ClInclude Include="ir.h" />
+    <ClInclude Include="linked_list.h" />
+    <ClInclude Include="logger.h" />
+    <ClInclude Include="memory.h" />
+    <ClInclude Include="peephole.h" />
+    <ClInclude Include="pelib\BoundImportDirectory.h" />
+    <ClInclude Include="pelib\CoffSymbolTable.h" />
+    <ClInclude Include="pelib\ComHeaderDirectory.h" />
+    <ClInclude Include="pelib\DebugDirectory.h" />
+    <ClInclude Include="pelib\DelayImportDirectory.h" />
+    <ClInclude Include="pelib\ExportDirectory.h" />
+    <ClInclude Include="pelib\IatDirectory.h" />
+    <ClInclude Include="pelib\ImportDirectory.h" />
+    <ClInclude Include="pelib\InputBuffer.h" />
+    <ClInclude Include="pelib\MzHeader.h" />
+    <ClInclude Include="pelib\OutputBuffer.h" />
+    <ClInclude Include="pelib\PeFile.h" />
+    <ClInclude Include="pelib\PeHeader.h" />
+    <ClInclude Include="pelib\PeLib.h" />
+    <ClInclude Include="pelib\PeLibAux.h" />
+    <ClInclude Include="pelib\PeLibInc.h" />
+    <ClInclude Include="pelib\RelocationsDirectory.h" />
+    <ClInclude Include="pelib\ResourceDirectory.h" />
+    <ClInclude Include="pelib\RichHeader.h" />
+    <ClInclude Include="pelib\SecurityDirectory.h" />
+    <ClInclude Include="pelib\TlsDirectory.h" />
+    <ClInclude Include="pretty.h" />
+    <ClInclude Include="pre_ir_weed.h" />
+    <ClInclude Include="stack.h" />
+    <ClInclude Include="symbol.h" />
+    <ClInclude Include="tree.h" />
+    <ClInclude Include="type_checker.h" />
+    <ClInclude Include="weeder.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="array.cpp" />
+    <ClCompile Include="codegen.cpp" />
+    <ClCompile Include="emit_util.cpp" />
+    <ClCompile Include="falcon_arguments.cpp" />
+    <ClCompile Include="falcon_string.cpp" />
+    <ClCompile Include="file_io.cpp" />
+    <ClCompile Include="graph.cpp" />
+    <ClCompile Include="imp.flex.cpp" />
+    <ClCompile Include="imp.tab.cpp" />
+    <ClCompile Include="ir.cpp" />
+    <ClCompile Include="linked_list.cpp" />
+    <ClCompile Include="logger.cpp" />
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="mc_util.cpp" />
+    <ClCompile Include="memory.cpp" />
+    <ClCompile Include="peephole.cpp" />
+    <ClCompile Include="pelib\BoundImportDirectory.cpp" />
+    <ClCompile Include="pelib\CoffSymbolTable.cpp" />
+    <ClCompile Include="pelib\ComHeaderDirectory.cpp" />
+    <ClCompile Include="pelib\DebugDirectory.cpp" />
+    <ClCompile Include="pelib\ExportDirectory.cpp" />
+    <ClCompile Include="pelib\IatDirectory.cpp" />
+    <ClCompile Include="pelib\InputBuffer.cpp" />
+    <ClCompile Include="pelib\MzHeader.cpp" />
+    <ClCompile Include="pelib\OutputBuffer.cpp" />
+    <ClCompile Include="pelib\PeFile.cpp" />
+    <ClCompile Include="pelib\PeHeader.cpp" />
+    <ClCompile Include="pelib\PeLibAux.cpp" />
+    <ClCompile Include="pelib\RelocationsDirectory.cpp" />
+    <ClCompile Include="pelib\ResourceDirectory.cpp" />
+    <ClCompile Include="pelib\RichHeader.cpp" />
+    <ClCompile Include="pelib\SecurityDirectory.cpp" />
+    <ClCompile Include="pretty.cpp" />
+    <ClCompile Include="pre_ir_weed.cpp" />
+    <ClCompile Include="stack.cpp" />
+    <ClCompile Include="symbol.cpp" />
+    <ClCompile Include="tree.cpp" />
+    <ClCompile Include="type_checker.cpp" />
+    <ClCompile Include="weeder.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <Flex Include="imp.l">
+      <Debug Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</Debug>
+      <Debug Condition="'$(Configuration)|$(Platform)'=='Dist|x64'">false</Debug>
+      <Debug Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</Debug>
+    </Flex>
+  </ItemGroup>
+  <ItemGroup>
+    <Bison Include="imp.y">
+      <Debug Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</Debug>
+      <Debug Condition="'$(Configuration)|$(Platform)'=='Dist|x64'">false</Debug>
+      <Debug Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</Debug>
+      <Verbose Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</Verbose>
+      <Report Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">all</Report>
+      <Verbose Condition="'$(Configuration)|$(Platform)'=='Dist|x64'">true</Verbose>
+      <Report Condition="'$(Configuration)|$(Platform)'=='Dist|x64'">all</Report>
+      <Verbose Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</Verbose>
+      <Report Condition="'$(Configuration)|$(Platform)'=='Release|x64'">all</Report>
+    </Bison>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="..\bin\Debug-windows-x86_64\Imp\vm.txt" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+    <Import Project="..\win_flex_bison3-latest\custom_build_rules\win_flex_bison\win_flex_bison_custom_build.targets" />
+  </ImportGroup>
+</Project>

@@ -1,0 +1,3945 @@
+Nonterminals useless in grammar
+
+   tail
+
+
+Terminals unused in grammar
+
+   tWRITE
+   tTHEN
+   tDO
+   tTYPE
+   tFUNC
+   tEND
+   tVAR
+   tBOX
+   tAND_EQUAL
+   tOR_EQUAL
+   tFOR
+   tDOUBLE_SEMICOLON
+   tLEFT_ARROW
+   tAOS
+
+
+State 63 conflicts: 1 shift/reduce
+State 127 conflicts: 1 shift/reduce
+
+
+Grammar
+
+    0 $accept: pre_program $end
+
+    1 pre_program: program
+
+    2 program: directive_list body
+
+    3 string: tSTRING
+    4       | tSTRING '+' tSTRING
+
+    5 directive_list: directive_list directive
+    6               | %empty
+
+    7 directive: tCOMMAND_LOAD tSTRING
+    8          | tCOMMAND_CONTAIN tSTRING
+    9          | tCOMMAND_BUILD tIDENTIFIER '(' act_list ')'
+   10          | tCOMMAND_SHADER tIDENTIFIER tSTRING
+
+   11 function: head '{' body '}'
+
+   12 head: tIDENTIFIER_DECL ':' '(' par_decl_list ')' tRIGHT_ARROW type
+
+   13 array_length: tINTCONST
+   14             | %empty
+
+   15 type_omittable: %empty
+   16               | type
+
+   17 type: tIDENTIFIER
+   18     | tINT
+   19     | tBOOL
+   20     | tSTRING_TOKEN
+   21     | '[' array_length ']' type
+   22     | tSTRUCT property '{' var_decl_list '}'
+   23     | tBYTE
+   24     | tSHORT
+   25     | tLONG
+   26     | tFLOAT
+   27     | tDOUBLE
+   28     | tu8
+   29     | tu16
+   30     | tu32
+   31     | tu64
+   32     | tu128
+   33     | tu256
+   34     | tu512
+   35     | tBITSET
+   36     | tUNION '{' var_decl_list '}'
+   37     | tVOID
+
+   38 par_decl_list: var_decl_list
+   39              | %empty
+
+   40 var_decl_list: var_type ',' var_decl_list
+   41              | var_type
+
+   42 var_type: tIDENTIFIER_DECL type
+
+   43 body: decl_list statement_list
+
+   44 decl_list: %empty
+   45          | decl_list declaration
+
+   46 declaration: function
+   47            | var_decl_list ';'
+   48            | tIDENTIFIER_DECL type_omittable '=' exp ';'
+
+   49 statement_list: %empty
+   50               | statement_list statement
+
+   51 statement: tRETURN exp ';'
+   52          | tPRINT exp ';'
+   53          | tALLOCATE variable ';'
+   54          | tALLOCATE variable tOF_LENGTH exp ';'
+   55          | variable '=' exp ';'
+   56          | variable tPLUS_EQUAL exp ';'
+   57          | variable tMINUS_EQUAL exp ';'
+   58          | variable tTIMES_EQUAL exp ';'
+   59          | variable tDIVIDE_EQUAL exp ';'
+   60          | tIF exp statement
+   61          | tIF exp statement tELSE statement
+   62          | tWHILE exp statement
+   63          | '{' statement_list '}'
+
+   64 variable: tIDENTIFIER
+   65         | variable '[' exp ']'
+   66         | variable '.' tIDENTIFIER
+
+   67 exp: exp '*' exp
+   68    | exp '/' exp
+   69    | exp '+' exp
+   70    | exp '-' exp
+   71    | exp tEQUALITY exp
+   72    | exp tOR exp
+   73    | exp tAND exp
+   74    | exp tNON_EQUALITY exp
+   75    | exp tGREATER_EQUAL exp
+   76    | exp tLESSER_EQUAL exp
+   77    | exp '>' exp
+   78    | exp '<' exp
+   79    | term
+
+   80 term: variable
+   81     | tIDENTIFIER '(' act_list ')'
+   82     | '(' exp ')'
+   83     | '!' term
+   84     | '|' exp '|'
+   85     | tINTCONST
+   86     | tTRUE
+   87     | tFALSE
+   88     | tNULL
+   89     | string
+
+   90 act_list: exp_list
+   91         | %empty
+
+   92 exp_list: exp
+   93         | exp ',' exp_list
+
+   94 property: tSOA
+   95         | %empty
+
+
+Terminals, with rules where they appear
+
+$end (0) 0
+'!' (33) 83
+'(' (40) 9 12 81 82
+')' (41) 9 12 81 82
+'*' (42) 67
+'+' (43) 4 69
+',' (44) 40 93
+'-' (45) 70
+'.' (46) 66
+'/' (47) 68
+':' (58) 12
+';' (59) 47 48 51 52 53 54 55 56 57 58 59
+'<' (60) 78
+'=' (61) 48 55
+'>' (62) 77
+'[' (91) 21 65
+']' (93) 21 65
+'{' (123) 11 22 36 63
+'|' (124) 84
+'}' (125) 11 22 36 63
+error (256)
+tINTCONST <intconst> (258) 13 85
+tIDENTIFIER <stringconst> (259) 9 10 17 64 66 81
+tIDENTIFIER_DECL <stringconst> (260) 12 42 48
+tSTRING <dynamic_string> (261) 3 4 7 8 10
+tCOMMAND_LOAD (262) 7
+tCOMMAND_CONTAIN (263) 8
+tCOMMAND_SHADER (264) 10
+tCOMMAND_BUILD (265) 9
+tEQUALITY (266) 71
+tLESSER_EQUAL (267) 76
+tGREATER_EQUAL (268) 75
+tNON_EQUALITY (269) 74
+tAND (270) 73
+tOR (271) 72
+tRETURN (272) 51
+tWRITE (273)
+tIF (274) 60 61
+tELSE (275) 61
+tTHEN (276)
+tALLOCATE (277) 53 54
+tWHILE (278) 62
+tDO (279)
+tTYPE (280)
+tFUNC (281)
+tEND (282)
+tVAR (283)
+tOF_LENGTH (284) 54
+tBYTE (285) 23
+tINT (286) 18
+tSHORT (287) 24
+tLONG (288) 25
+tFLOAT (289) 26
+tDOUBLE (290) 27
+tu8 (291) 28
+tu16 (292) 29
+tu32 (293) 30
+tu64 (294) 31
+tu128 (295) 32
+tu256 (296) 33
+tu512 (297) 34
+tSTRING_TOKEN (298) 20
+tBOOL (299) 19
+tTRUE (300) 86
+tFALSE (301) 87
+tNULL (302) 88
+tBITSET (303) 35
+tBOX (304)
+tSTRUCT (305) 22
+tUNION (306) 36
+tVOID (307) 37
+tPLUS_EQUAL (308) 56
+tMINUS_EQUAL (309) 57
+tTIMES_EQUAL (310) 58
+tDIVIDE_EQUAL (311) 59
+tAND_EQUAL (312)
+tOR_EQUAL (313)
+tFOR (314)
+tDOUBLE_SEMICOLON (315)
+tRIGHT_ARROW (316) 12
+tLEFT_ARROW (317)
+tPRINT (318) 52
+tSOA (319) 94
+tAOS (320)
+
+
+Nonterminals, with rules where they appear
+
+$accept (85)
+    on left: 0
+pre_program <ast> (86)
+    on left: 1, on right: 0
+program <ast> (87)
+    on left: 2, on right: 1
+string <string> (88)
+    on left: 3 4, on right: 89
+directive_list <directive_list> (89)
+    on left: 5 6, on right: 2 5
+directive <directive> (90)
+    on left: 7 8 9 10, on right: 5
+function <function> (91)
+    on left: 11, on right: 46
+head <head> (92)
+    on left: 12, on right: 11
+array_length <intconst> (93)
+    on left: 13 14, on right: 21
+type_omittable <type> (94)
+    on left: 15 16, on right: 48
+type <type> (95)
+    on left: 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34
+    35 36 37, on right: 12 16 21 42
+par_decl_list <par_decl_list> (96)
+    on left: 38 39, on right: 12
+var_decl_list <var_decl_list> (97)
+    on left: 40 41, on right: 22 36 38 40 47
+var_type <var_type> (98)
+    on left: 42, on right: 40 41
+body <body> (99)
+    on left: 43, on right: 2 11
+decl_list <decl_list> (100)
+    on left: 44 45, on right: 43 45
+declaration <declaration> (101)
+    on left: 46 47 48, on right: 45
+statement_list <statement_list> (102)
+    on left: 49 50, on right: 43 50 63
+statement <statement> (103)
+    on left: 51 52 53 54 55 56 57 58 59 60 61 62 63, on right: 50 60
+    61 62
+variable <variable> (104)
+    on left: 64 65 66, on right: 53 54 55 56 57 58 59 65 66 80
+exp <exp> (105)
+    on left: 67 68 69 70 71 72 73 74 75 76 77 78 79, on right: 48 51
+    52 54 55 56 57 58 59 60 61 62 65 67 68 69 70 71 72 73 74 75 76
+    77 78 82 84 92 93
+term <term> (106)
+    on left: 80 81 82 83 84 85 86 87 88 89, on right: 79 83
+act_list <act_list> (107)
+    on left: 90 91, on right: 9 81
+exp_list <exp_list> (108)
+    on left: 92 93, on right: 90 93
+property (109)
+    on left: 94 95, on right: 22
+
+
+State 0
+
+    0 $accept: . pre_program $end
+    1 pre_program: . program
+    2 program: . directive_list body
+    5 directive_list: . directive_list directive
+    6               | . %empty
+
+    $default  reduce using rule 6 (directive_list)
+
+    pre_program     go to state 1
+    program         go to state 2
+    directive_list  go to state 3
+
+
+State 1
+
+    0 $accept: pre_program . $end
+
+    $end  shift, and go to state 4
+
+
+State 2
+
+    1 pre_program: program .
+
+    $default  reduce using rule 1 (pre_program)
+
+
+State 3
+
+    2 program: directive_list . body
+    5 directive_list: directive_list . directive
+    7 directive: . tCOMMAND_LOAD tSTRING
+    8          | . tCOMMAND_CONTAIN tSTRING
+    9          | . tCOMMAND_BUILD tIDENTIFIER '(' act_list ')'
+   10          | . tCOMMAND_SHADER tIDENTIFIER tSTRING
+   43 body: . decl_list statement_list
+   44 decl_list: . %empty  [$end, tIDENTIFIER, tIDENTIFIER_DECL, tRETURN, tIF, tALLOCATE, tWHILE, tPRINT, '{']
+   45          | . decl_list declaration
+
+    tCOMMAND_LOAD     shift, and go to state 5
+    tCOMMAND_CONTAIN  shift, and go to state 6
+    tCOMMAND_SHADER   shift, and go to state 7
+    tCOMMAND_BUILD    shift, and go to state 8
+
+    $default  reduce using rule 44 (decl_list)
+
+    directive  go to state 9
+    body       go to state 10
+    decl_list  go to state 11
+
+
+State 4
+
+    0 $accept: pre_program $end .
+
+    $default  accept
+
+
+State 5
+
+    7 directive: tCOMMAND_LOAD . tSTRING
+
+    tSTRING  shift, and go to state 12
+
+
+State 6
+
+    8 directive: tCOMMAND_CONTAIN . tSTRING
+
+    tSTRING  shift, and go to state 13
+
+
+State 7
+
+   10 directive: tCOMMAND_SHADER . tIDENTIFIER tSTRING
+
+    tIDENTIFIER  shift, and go to state 14
+
+
+State 8
+
+    9 directive: tCOMMAND_BUILD . tIDENTIFIER '(' act_list ')'
+
+    tIDENTIFIER  shift, and go to state 15
+
+
+State 9
+
+    5 directive_list: directive_list directive .
+
+    $default  reduce using rule 5 (directive_list)
+
+
+State 10
+
+    2 program: directive_list body .
+
+    $default  reduce using rule 2 (program)
+
+
+State 11
+
+   11 function: . head '{' body '}'
+   12 head: . tIDENTIFIER_DECL ':' '(' par_decl_list ')' tRIGHT_ARROW type
+   40 var_decl_list: . var_type ',' var_decl_list
+   41              | . var_type
+   42 var_type: . tIDENTIFIER_DECL type
+   43 body: decl_list . statement_list
+   45 decl_list: decl_list . declaration
+   46 declaration: . function
+   47            | . var_decl_list ';'
+   48            | . tIDENTIFIER_DECL type_omittable '=' exp ';'
+   49 statement_list: . %empty  [$end, tIDENTIFIER, tRETURN, tIF, tALLOCATE, tWHILE, tPRINT, '{', '}']
+   50               | . statement_list statement
+
+    tIDENTIFIER_DECL  shift, and go to state 16
+
+    $default  reduce using rule 49 (statement_list)
+
+    function        go to state 17
+    head            go to state 18
+    var_decl_list   go to state 19
+    var_type        go to state 20
+    declaration     go to state 21
+    statement_list  go to state 22
+
+
+State 12
+
+    7 directive: tCOMMAND_LOAD tSTRING .
+
+    $default  reduce using rule 7 (directive)
+
+
+State 13
+
+    8 directive: tCOMMAND_CONTAIN tSTRING .
+
+    $default  reduce using rule 8 (directive)
+
+
+State 14
+
+   10 directive: tCOMMAND_SHADER tIDENTIFIER . tSTRING
+
+    tSTRING  shift, and go to state 23
+
+
+State 15
+
+    9 directive: tCOMMAND_BUILD tIDENTIFIER . '(' act_list ')'
+
+    '('  shift, and go to state 24
+
+
+State 16
+
+   12 head: tIDENTIFIER_DECL . ':' '(' par_decl_list ')' tRIGHT_ARROW type
+   15 type_omittable: . %empty  ['=']
+   16               | . type
+   17 type: . tIDENTIFIER
+   18     | . tINT
+   19     | . tBOOL
+   20     | . tSTRING_TOKEN
+   21     | . '[' array_length ']' type
+   22     | . tSTRUCT property '{' var_decl_list '}'
+   23     | . tBYTE
+   24     | . tSHORT
+   25     | . tLONG
+   26     | . tFLOAT
+   27     | . tDOUBLE
+   28     | . tu8
+   29     | . tu16
+   30     | . tu32
+   31     | . tu64
+   32     | . tu128
+   33     | . tu256
+   34     | . tu512
+   35     | . tBITSET
+   36     | . tUNION '{' var_decl_list '}'
+   37     | . tVOID
+   42 var_type: tIDENTIFIER_DECL . type
+   48 declaration: tIDENTIFIER_DECL . type_omittable '=' exp ';'
+
+    tIDENTIFIER    shift, and go to state 25
+    tBYTE          shift, and go to state 26
+    tINT           shift, and go to state 27
+    tSHORT         shift, and go to state 28
+    tLONG          shift, and go to state 29
+    tFLOAT         shift, and go to state 30
+    tDOUBLE        shift, and go to state 31
+    tu8            shift, and go to state 32
+    tu16           shift, and go to state 33
+    tu32           shift, and go to state 34
+    tu64           shift, and go to state 35
+    tu128          shift, and go to state 36
+    tu256          shift, and go to state 37
+    tu512          shift, and go to state 38
+    tSTRING_TOKEN  shift, and go to state 39
+    tBOOL          shift, and go to state 40
+    tBITSET        shift, and go to state 41
+    tSTRUCT        shift, and go to state 42
+    tUNION         shift, and go to state 43
+    tVOID          shift, and go to state 44
+    ':'            shift, and go to state 45
+    '['            shift, and go to state 46
+
+    $default  reduce using rule 15 (type_omittable)
+
+    type_omittable  go to state 47
+    type            go to state 48
+
+
+State 17
+
+   46 declaration: function .
+
+    $default  reduce using rule 46 (declaration)
+
+
+State 18
+
+   11 function: head . '{' body '}'
+
+    '{'  shift, and go to state 49
+
+
+State 19
+
+   47 declaration: var_decl_list . ';'
+
+    ';'  shift, and go to state 50
+
+
+State 20
+
+   40 var_decl_list: var_type . ',' var_decl_list
+   41              | var_type .  [')', '}', ';']
+
+    ','  shift, and go to state 51
+
+    $default  reduce using rule 41 (var_decl_list)
+
+
+State 21
+
+   45 decl_list: decl_list declaration .
+
+    $default  reduce using rule 45 (decl_list)
+
+
+State 22
+
+   43 body: decl_list statement_list .  [$end, '}']
+   50 statement_list: statement_list . statement
+   51 statement: . tRETURN exp ';'
+   52          | . tPRINT exp ';'
+   53          | . tALLOCATE variable ';'
+   54          | . tALLOCATE variable tOF_LENGTH exp ';'
+   55          | . variable '=' exp ';'
+   56          | . variable tPLUS_EQUAL exp ';'
+   57          | . variable tMINUS_EQUAL exp ';'
+   58          | . variable tTIMES_EQUAL exp ';'
+   59          | . variable tDIVIDE_EQUAL exp ';'
+   60          | . tIF exp statement
+   61          | . tIF exp statement tELSE statement
+   62          | . tWHILE exp statement
+   63          | . '{' statement_list '}'
+   64 variable: . tIDENTIFIER
+   65         | . variable '[' exp ']'
+   66         | . variable '.' tIDENTIFIER
+
+    tIDENTIFIER  shift, and go to state 52
+    tRETURN      shift, and go to state 53
+    tIF          shift, and go to state 54
+    tALLOCATE    shift, and go to state 55
+    tWHILE       shift, and go to state 56
+    tPRINT       shift, and go to state 57
+    '{'          shift, and go to state 58
+
+    $default  reduce using rule 43 (body)
+
+    statement  go to state 59
+    variable   go to state 60
+
+
+State 23
+
+   10 directive: tCOMMAND_SHADER tIDENTIFIER tSTRING .
+
+    $default  reduce using rule 10 (directive)
+
+
+State 24
+
+    3 string: . tSTRING
+    4       | . tSTRING '+' tSTRING
+    9 directive: tCOMMAND_BUILD tIDENTIFIER '(' . act_list ')'
+   64 variable: . tIDENTIFIER
+   65         | . variable '[' exp ']'
+   66         | . variable '.' tIDENTIFIER
+   67 exp: . exp '*' exp
+   68    | . exp '/' exp
+   69    | . exp '+' exp
+   70    | . exp '-' exp
+   71    | . exp tEQUALITY exp
+   72    | . exp tOR exp
+   73    | . exp tAND exp
+   74    | . exp tNON_EQUALITY exp
+   75    | . exp tGREATER_EQUAL exp
+   76    | . exp tLESSER_EQUAL exp
+   77    | . exp '>' exp
+   78    | . exp '<' exp
+   79    | . term
+   80 term: . variable
+   81     | . tIDENTIFIER '(' act_list ')'
+   82     | . '(' exp ')'
+   83     | . '!' term
+   84     | . '|' exp '|'
+   85     | . tINTCONST
+   86     | . tTRUE
+   87     | . tFALSE
+   88     | . tNULL
+   89     | . string
+   90 act_list: . exp_list
+   91         | . %empty  [')']
+   92 exp_list: . exp
+   93         | . exp ',' exp_list
+
+    tINTCONST    shift, and go to state 61
+    tIDENTIFIER  shift, and go to state 62
+    tSTRING      shift, and go to state 63
+    tTRUE        shift, and go to state 64
+    tFALSE       shift, and go to state 65
+    tNULL        shift, and go to state 66
+    '('          shift, and go to state 67
+    '!'          shift, and go to state 68
+    '|'          shift, and go to state 69
+
+    $default  reduce using rule 91 (act_list)
+
+    string    go to state 70
+    variable  go to state 71
+    exp       go to state 72
+    term      go to state 73
+    act_list  go to state 74
+    exp_list  go to state 75
+
+
+State 25
+
+   17 type: tIDENTIFIER .
+
+    $default  reduce using rule 17 (type)
+
+
+State 26
+
+   23 type: tBYTE .
+
+    $default  reduce using rule 23 (type)
+
+
+State 27
+
+   18 type: tINT .
+
+    $default  reduce using rule 18 (type)
+
+
+State 28
+
+   24 type: tSHORT .
+
+    $default  reduce using rule 24 (type)
+
+
+State 29
+
+   25 type: tLONG .
+
+    $default  reduce using rule 25 (type)
+
+
+State 30
+
+   26 type: tFLOAT .
+
+    $default  reduce using rule 26 (type)
+
+
+State 31
+
+   27 type: tDOUBLE .
+
+    $default  reduce using rule 27 (type)
+
+
+State 32
+
+   28 type: tu8 .
+
+    $default  reduce using rule 28 (type)
+
+
+State 33
+
+   29 type: tu16 .
+
+    $default  reduce using rule 29 (type)
+
+
+State 34
+
+   30 type: tu32 .
+
+    $default  reduce using rule 30 (type)
+
+
+State 35
+
+   31 type: tu64 .
+
+    $default  reduce using rule 31 (type)
+
+
+State 36
+
+   32 type: tu128 .
+
+    $default  reduce using rule 32 (type)
+
+
+State 37
+
+   33 type: tu256 .
+
+    $default  reduce using rule 33 (type)
+
+
+State 38
+
+   34 type: tu512 .
+
+    $default  reduce using rule 34 (type)
+
+
+State 39
+
+   20 type: tSTRING_TOKEN .
+
+    $default  reduce using rule 20 (type)
+
+
+State 40
+
+   19 type: tBOOL .
+
+    $default  reduce using rule 19 (type)
+
+
+State 41
+
+   35 type: tBITSET .
+
+    $default  reduce using rule 35 (type)
+
+
+State 42
+
+   22 type: tSTRUCT . property '{' var_decl_list '}'
+   94 property: . tSOA
+   95         | . %empty  ['{']
+
+    tSOA  shift, and go to state 76
+
+    $default  reduce using rule 95 (property)
+
+    property  go to state 77
+
+
+State 43
+
+   36 type: tUNION . '{' var_decl_list '}'
+
+    '{'  shift, and go to state 78
+
+
+State 44
+
+   37 type: tVOID .
+
+    $default  reduce using rule 37 (type)
+
+
+State 45
+
+   12 head: tIDENTIFIER_DECL ':' . '(' par_decl_list ')' tRIGHT_ARROW type
+
+    '('  shift, and go to state 79
+
+
+State 46
+
+   13 array_length: . tINTCONST
+   14             | . %empty  [']']
+   21 type: '[' . array_length ']' type
+
+    tINTCONST  shift, and go to state 80
+
+    $default  reduce using rule 14 (array_length)
+
+    array_length  go to state 81
+
+
+State 47
+
+   48 declaration: tIDENTIFIER_DECL type_omittable . '=' exp ';'
+
+    '='  shift, and go to state 82
+
+
+State 48
+
+   16 type_omittable: type .  ['=']
+   42 var_type: tIDENTIFIER_DECL type .  [',', ';']
+
+    '='       reduce using rule 16 (type_omittable)
+    $default  reduce using rule 42 (var_type)
+
+
+State 49
+
+   11 function: head '{' . body '}'
+   43 body: . decl_list statement_list
+   44 decl_list: . %empty
+   45          | . decl_list declaration
+
+    $default  reduce using rule 44 (decl_list)
+
+    body       go to state 83
+    decl_list  go to state 11
+
+
+State 50
+
+   47 declaration: var_decl_list ';' .
+
+    $default  reduce using rule 47 (declaration)
+
+
+State 51
+
+   40 var_decl_list: . var_type ',' var_decl_list
+   40              | var_type ',' . var_decl_list
+   41              | . var_type
+   42 var_type: . tIDENTIFIER_DECL type
+
+    tIDENTIFIER_DECL  shift, and go to state 84
+
+    var_decl_list  go to state 85
+    var_type       go to state 20
+
+
+State 52
+
+   64 variable: tIDENTIFIER .
+
+    $default  reduce using rule 64 (variable)
+
+
+State 53
+
+    3 string: . tSTRING
+    4       | . tSTRING '+' tSTRING
+   51 statement: tRETURN . exp ';'
+   64 variable: . tIDENTIFIER
+   65         | . variable '[' exp ']'
+   66         | . variable '.' tIDENTIFIER
+   67 exp: . exp '*' exp
+   68    | . exp '/' exp
+   69    | . exp '+' exp
+   70    | . exp '-' exp
+   71    | . exp tEQUALITY exp
+   72    | . exp tOR exp
+   73    | . exp tAND exp
+   74    | . exp tNON_EQUALITY exp
+   75    | . exp tGREATER_EQUAL exp
+   76    | . exp tLESSER_EQUAL exp
+   77    | . exp '>' exp
+   78    | . exp '<' exp
+   79    | . term
+   80 term: . variable
+   81     | . tIDENTIFIER '(' act_list ')'
+   82     | . '(' exp ')'
+   83     | . '!' term
+   84     | . '|' exp '|'
+   85     | . tINTCONST
+   86     | . tTRUE
+   87     | . tFALSE
+   88     | . tNULL
+   89     | . string
+
+    tINTCONST    shift, and go to state 61
+    tIDENTIFIER  shift, and go to state 62
+    tSTRING      shift, and go to state 63
+    tTRUE        shift, and go to state 64
+    tFALSE       shift, and go to state 65
+    tNULL        shift, and go to state 66
+    '('          shift, and go to state 67
+    '!'          shift, and go to state 68
+    '|'          shift, and go to state 69
+
+    string    go to state 70
+    variable  go to state 71
+    exp       go to state 86
+    term      go to state 73
+
+
+State 54
+
+    3 string: . tSTRING
+    4       | . tSTRING '+' tSTRING
+   60 statement: tIF . exp statement
+   61          | tIF . exp statement tELSE statement
+   64 variable: . tIDENTIFIER
+   65         | . variable '[' exp ']'
+   66         | . variable '.' tIDENTIFIER
+   67 exp: . exp '*' exp
+   68    | . exp '/' exp
+   69    | . exp '+' exp
+   70    | . exp '-' exp
+   71    | . exp tEQUALITY exp
+   72    | . exp tOR exp
+   73    | . exp tAND exp
+   74    | . exp tNON_EQUALITY exp
+   75    | . exp tGREATER_EQUAL exp
+   76    | . exp tLESSER_EQUAL exp
+   77    | . exp '>' exp
+   78    | . exp '<' exp
+   79    | . term
+   80 term: . variable
+   81     | . tIDENTIFIER '(' act_list ')'
+   82     | . '(' exp ')'
+   83     | . '!' term
+   84     | . '|' exp '|'
+   85     | . tINTCONST
+   86     | . tTRUE
+   87     | . tFALSE
+   88     | . tNULL
+   89     | . string
+
+    tINTCONST    shift, and go to state 61
+    tIDENTIFIER  shift, and go to state 62
+    tSTRING      shift, and go to state 63
+    tTRUE        shift, and go to state 64
+    tFALSE       shift, and go to state 65
+    tNULL        shift, and go to state 66
+    '('          shift, and go to state 67
+    '!'          shift, and go to state 68
+    '|'          shift, and go to state 69
+
+    string    go to state 70
+    variable  go to state 71
+    exp       go to state 87
+    term      go to state 73
+
+
+State 55
+
+   53 statement: tALLOCATE . variable ';'
+   54          | tALLOCATE . variable tOF_LENGTH exp ';'
+   64 variable: . tIDENTIFIER
+   65         | . variable '[' exp ']'
+   66         | . variable '.' tIDENTIFIER
+
+    tIDENTIFIER  shift, and go to state 52
+
+    variable  go to state 88
+
+
+State 56
+
+    3 string: . tSTRING
+    4       | . tSTRING '+' tSTRING
+   62 statement: tWHILE . exp statement
+   64 variable: . tIDENTIFIER
+   65         | . variable '[' exp ']'
+   66         | . variable '.' tIDENTIFIER
+   67 exp: . exp '*' exp
+   68    | . exp '/' exp
+   69    | . exp '+' exp
+   70    | . exp '-' exp
+   71    | . exp tEQUALITY exp
+   72    | . exp tOR exp
+   73    | . exp tAND exp
+   74    | . exp tNON_EQUALITY exp
+   75    | . exp tGREATER_EQUAL exp
+   76    | . exp tLESSER_EQUAL exp
+   77    | . exp '>' exp
+   78    | . exp '<' exp
+   79    | . term
+   80 term: . variable
+   81     | . tIDENTIFIER '(' act_list ')'
+   82     | . '(' exp ')'
+   83     | . '!' term
+   84     | . '|' exp '|'
+   85     | . tINTCONST
+   86     | . tTRUE
+   87     | . tFALSE
+   88     | . tNULL
+   89     | . string
+
+    tINTCONST    shift, and go to state 61
+    tIDENTIFIER  shift, and go to state 62
+    tSTRING      shift, and go to state 63
+    tTRUE        shift, and go to state 64
+    tFALSE       shift, and go to state 65
+    tNULL        shift, and go to state 66
+    '('          shift, and go to state 67
+    '!'          shift, and go to state 68
+    '|'          shift, and go to state 69
+
+    string    go to state 70
+    variable  go to state 71
+    exp       go to state 89
+    term      go to state 73
+
+
+State 57
+
+    3 string: . tSTRING
+    4       | . tSTRING '+' tSTRING
+   52 statement: tPRINT . exp ';'
+   64 variable: . tIDENTIFIER
+   65         | . variable '[' exp ']'
+   66         | . variable '.' tIDENTIFIER
+   67 exp: . exp '*' exp
+   68    | . exp '/' exp
+   69    | . exp '+' exp
+   70    | . exp '-' exp
+   71    | . exp tEQUALITY exp
+   72    | . exp tOR exp
+   73    | . exp tAND exp
+   74    | . exp tNON_EQUALITY exp
+   75    | . exp tGREATER_EQUAL exp
+   76    | . exp tLESSER_EQUAL exp
+   77    | . exp '>' exp
+   78    | . exp '<' exp
+   79    | . term
+   80 term: . variable
+   81     | . tIDENTIFIER '(' act_list ')'
+   82     | . '(' exp ')'
+   83     | . '!' term
+   84     | . '|' exp '|'
+   85     | . tINTCONST
+   86     | . tTRUE
+   87     | . tFALSE
+   88     | . tNULL
+   89     | . string
+
+    tINTCONST    shift, and go to state 61
+    tIDENTIFIER  shift, and go to state 62
+    tSTRING      shift, and go to state 63
+    tTRUE        shift, and go to state 64
+    tFALSE       shift, and go to state 65
+    tNULL        shift, and go to state 66
+    '('          shift, and go to state 67
+    '!'          shift, and go to state 68
+    '|'          shift, and go to state 69
+
+    string    go to state 70
+    variable  go to state 71
+    exp       go to state 90
+    term      go to state 73
+
+
+State 58
+
+   49 statement_list: . %empty
+   50               | . statement_list statement
+   63 statement: '{' . statement_list '}'
+
+    $default  reduce using rule 49 (statement_list)
+
+    statement_list  go to state 91
+
+
+State 59
+
+   50 statement_list: statement_list statement .
+
+    $default  reduce using rule 50 (statement_list)
+
+
+State 60
+
+   55 statement: variable . '=' exp ';'
+   56          | variable . tPLUS_EQUAL exp ';'
+   57          | variable . tMINUS_EQUAL exp ';'
+   58          | variable . tTIMES_EQUAL exp ';'
+   59          | variable . tDIVIDE_EQUAL exp ';'
+   65 variable: variable . '[' exp ']'
+   66         | variable . '.' tIDENTIFIER
+
+    tPLUS_EQUAL    shift, and go to state 92
+    tMINUS_EQUAL   shift, and go to state 93
+    tTIMES_EQUAL   shift, and go to state 94
+    tDIVIDE_EQUAL  shift, and go to state 95
+    '['            shift, and go to state 96
+    '='            shift, and go to state 97
+    '.'            shift, and go to state 98
+
+
+State 61
+
+   85 term: tINTCONST .
+
+    $default  reduce using rule 85 (term)
+
+
+State 62
+
+   64 variable: tIDENTIFIER .  [tIDENTIFIER, tEQUALITY, tLESSER_EQUAL, tGREATER_EQUAL, tNON_EQUALITY, tAND, tOR, tRETURN, tIF, tALLOCATE, tWHILE, tPRINT, '<', '>', '+', '-', '*', '/', ')', '{', '[', ']', ',', ';', '.', '|']
+   81 term: tIDENTIFIER . '(' act_list ')'
+
+    '('  shift, and go to state 99
+
+    $default  reduce using rule 64 (variable)
+
+
+State 63
+
+    3 string: tSTRING .  [tIDENTIFIER, tEQUALITY, tLESSER_EQUAL, tGREATER_EQUAL, tNON_EQUALITY, tAND, tOR, tRETURN, tIF, tALLOCATE, tWHILE, tPRINT, '<', '>', '+', '-', '*', '/', ')', '{', ']', ',', ';', '|']
+    4       | tSTRING . '+' tSTRING
+
+    '+'  shift, and go to state 100
+
+    '+'       [reduce using rule 3 (string)]
+    $default  reduce using rule 3 (string)
+
+
+State 64
+
+   86 term: tTRUE .
+
+    $default  reduce using rule 86 (term)
+
+
+State 65
+
+   87 term: tFALSE .
+
+    $default  reduce using rule 87 (term)
+
+
+State 66
+
+   88 term: tNULL .
+
+    $default  reduce using rule 88 (term)
+
+
+State 67
+
+    3 string: . tSTRING
+    4       | . tSTRING '+' tSTRING
+   64 variable: . tIDENTIFIER
+   65         | . variable '[' exp ']'
+   66         | . variable '.' tIDENTIFIER
+   67 exp: . exp '*' exp
+   68    | . exp '/' exp
+   69    | . exp '+' exp
+   70    | . exp '-' exp
+   71    | . exp tEQUALITY exp
+   72    | . exp tOR exp
+   73    | . exp tAND exp
+   74    | . exp tNON_EQUALITY exp
+   75    | . exp tGREATER_EQUAL exp
+   76    | . exp tLESSER_EQUAL exp
+   77    | . exp '>' exp
+   78    | . exp '<' exp
+   79    | . term
+   80 term: . variable
+   81     | . tIDENTIFIER '(' act_list ')'
+   82     | . '(' exp ')'
+   82     | '(' . exp ')'
+   83     | . '!' term
+   84     | . '|' exp '|'
+   85     | . tINTCONST
+   86     | . tTRUE
+   87     | . tFALSE
+   88     | . tNULL
+   89     | . string
+
+    tINTCONST    shift, and go to state 61
+    tIDENTIFIER  shift, and go to state 62
+    tSTRING      shift, and go to state 63
+    tTRUE        shift, and go to state 64
+    tFALSE       shift, and go to state 65
+    tNULL        shift, and go to state 66
+    '('          shift, and go to state 67
+    '!'          shift, and go to state 68
+    '|'          shift, and go to state 69
+
+    string    go to state 70
+    variable  go to state 71
+    exp       go to state 101
+    term      go to state 73
+
+
+State 68
+
+    3 string: . tSTRING
+    4       | . tSTRING '+' tSTRING
+   64 variable: . tIDENTIFIER
+   65         | . variable '[' exp ']'
+   66         | . variable '.' tIDENTIFIER
+   80 term: . variable
+   81     | . tIDENTIFIER '(' act_list ')'
+   82     | . '(' exp ')'
+   83     | . '!' term
+   83     | '!' . term
+   84     | . '|' exp '|'
+   85     | . tINTCONST
+   86     | . tTRUE
+   87     | . tFALSE
+   88     | . tNULL
+   89     | . string
+
+    tINTCONST    shift, and go to state 61
+    tIDENTIFIER  shift, and go to state 62
+    tSTRING      shift, and go to state 63
+    tTRUE        shift, and go to state 64
+    tFALSE       shift, and go to state 65
+    tNULL        shift, and go to state 66
+    '('          shift, and go to state 67
+    '!'          shift, and go to state 68
+    '|'          shift, and go to state 69
+
+    string    go to state 70
+    variable  go to state 71
+    term      go to state 102
+
+
+State 69
+
+    3 string: . tSTRING
+    4       | . tSTRING '+' tSTRING
+   64 variable: . tIDENTIFIER
+   65         | . variable '[' exp ']'
+   66         | . variable '.' tIDENTIFIER
+   67 exp: . exp '*' exp
+   68    | . exp '/' exp
+   69    | . exp '+' exp
+   70    | . exp '-' exp
+   71    | . exp tEQUALITY exp
+   72    | . exp tOR exp
+   73    | . exp tAND exp
+   74    | . exp tNON_EQUALITY exp
+   75    | . exp tGREATER_EQUAL exp
+   76    | . exp tLESSER_EQUAL exp
+   77    | . exp '>' exp
+   78    | . exp '<' exp
+   79    | . term
+   80 term: . variable
+   81     | . tIDENTIFIER '(' act_list ')'
+   82     | . '(' exp ')'
+   83     | . '!' term
+   84     | . '|' exp '|'
+   84     | '|' . exp '|'
+   85     | . tINTCONST
+   86     | . tTRUE
+   87     | . tFALSE
+   88     | . tNULL
+   89     | . string
+
+    tINTCONST    shift, and go to state 61
+    tIDENTIFIER  shift, and go to state 62
+    tSTRING      shift, and go to state 63
+    tTRUE        shift, and go to state 64
+    tFALSE       shift, and go to state 65
+    tNULL        shift, and go to state 66
+    '('          shift, and go to state 67
+    '!'          shift, and go to state 68
+    '|'          shift, and go to state 69
+
+    string    go to state 70
+    variable  go to state 71
+    exp       go to state 103
+    term      go to state 73
+
+
+State 70
+
+   89 term: string .
+
+    $default  reduce using rule 89 (term)
+
+
+State 71
+
+   65 variable: variable . '[' exp ']'
+   66         | variable . '.' tIDENTIFIER
+   80 term: variable .  [tIDENTIFIER, tEQUALITY, tLESSER_EQUAL, tGREATER_EQUAL, tNON_EQUALITY, tAND, tOR, tRETURN, tIF, tALLOCATE, tWHILE, tPRINT, '<', '>', '+', '-', '*', '/', ')', '{', ']', ',', ';', '|']
+
+    '['  shift, and go to state 96
+    '.'  shift, and go to state 98
+
+    $default  reduce using rule 80 (term)
+
+
+State 72
+
+   67 exp: exp . '*' exp
+   68    | exp . '/' exp
+   69    | exp . '+' exp
+   70    | exp . '-' exp
+   71    | exp . tEQUALITY exp
+   72    | exp . tOR exp
+   73    | exp . tAND exp
+   74    | exp . tNON_EQUALITY exp
+   75    | exp . tGREATER_EQUAL exp
+   76    | exp . tLESSER_EQUAL exp
+   77    | exp . '>' exp
+   78    | exp . '<' exp
+   92 exp_list: exp .  [')']
+   93         | exp . ',' exp_list
+
+    tEQUALITY       shift, and go to state 104
+    tLESSER_EQUAL   shift, and go to state 105
+    tGREATER_EQUAL  shift, and go to state 106
+    tNON_EQUALITY   shift, and go to state 107
+    tAND            shift, and go to state 108
+    tOR             shift, and go to state 109
+    '<'             shift, and go to state 110
+    '>'             shift, and go to state 111
+    '+'             shift, and go to state 112
+    '-'             shift, and go to state 113
+    '*'             shift, and go to state 114
+    '/'             shift, and go to state 115
+    ','             shift, and go to state 116
+
+    $default  reduce using rule 92 (exp_list)
+
+
+State 73
+
+   79 exp: term .
+
+    $default  reduce using rule 79 (exp)
+
+
+State 74
+
+    9 directive: tCOMMAND_BUILD tIDENTIFIER '(' act_list . ')'
+
+    ')'  shift, and go to state 117
+
+
+State 75
+
+   90 act_list: exp_list .
+
+    $default  reduce using rule 90 (act_list)
+
+
+State 76
+
+   94 property: tSOA .
+
+    $default  reduce using rule 94 (property)
+
+
+State 77
+
+   22 type: tSTRUCT property . '{' var_decl_list '}'
+
+    '{'  shift, and go to state 118
+
+
+State 78
+
+   36 type: tUNION '{' . var_decl_list '}'
+   40 var_decl_list: . var_type ',' var_decl_list
+   41              | . var_type
+   42 var_type: . tIDENTIFIER_DECL type
+
+    tIDENTIFIER_DECL  shift, and go to state 84
+
+    var_decl_list  go to state 119
+    var_type       go to state 20
+
+
+State 79
+
+   12 head: tIDENTIFIER_DECL ':' '(' . par_decl_list ')' tRIGHT_ARROW type
+   38 par_decl_list: . var_decl_list
+   39              | . %empty  [')']
+   40 var_decl_list: . var_type ',' var_decl_list
+   41              | . var_type
+   42 var_type: . tIDENTIFIER_DECL type
+
+    tIDENTIFIER_DECL  shift, and go to state 84
+
+    $default  reduce using rule 39 (par_decl_list)
+
+    par_decl_list  go to state 120
+    var_decl_list  go to state 121
+    var_type       go to state 20
+
+
+State 80
+
+   13 array_length: tINTCONST .
+
+    $default  reduce using rule 13 (array_length)
+
+
+State 81
+
+   21 type: '[' array_length . ']' type
+
+    ']'  shift, and go to state 122
+
+
+State 82
+
+    3 string: . tSTRING
+    4       | . tSTRING '+' tSTRING
+   48 declaration: tIDENTIFIER_DECL type_omittable '=' . exp ';'
+   64 variable: . tIDENTIFIER
+   65         | . variable '[' exp ']'
+   66         | . variable '.' tIDENTIFIER
+   67 exp: . exp '*' exp
+   68    | . exp '/' exp
+   69    | . exp '+' exp
+   70    | . exp '-' exp
+   71    | . exp tEQUALITY exp
+   72    | . exp tOR exp
+   73    | . exp tAND exp
+   74    | . exp tNON_EQUALITY exp
+   75    | . exp tGREATER_EQUAL exp
+   76    | . exp tLESSER_EQUAL exp
+   77    | . exp '>' exp
+   78    | . exp '<' exp
+   79    | . term
+   80 term: . variable
+   81     | . tIDENTIFIER '(' act_list ')'
+   82     | . '(' exp ')'
+   83     | . '!' term
+   84     | . '|' exp '|'
+   85     | . tINTCONST
+   86     | . tTRUE
+   87     | . tFALSE
+   88     | . tNULL
+   89     | . string
+
+    tINTCONST    shift, and go to state 61
+    tIDENTIFIER  shift, and go to state 62
+    tSTRING      shift, and go to state 63
+    tTRUE        shift, and go to state 64
+    tFALSE       shift, and go to state 65
+    tNULL        shift, and go to state 66
+    '('          shift, and go to state 67
+    '!'          shift, and go to state 68
+    '|'          shift, and go to state 69
+
+    string    go to state 70
+    variable  go to state 71
+    exp       go to state 123
+    term      go to state 73
+
+
+State 83
+
+   11 function: head '{' body . '}'
+
+    '}'  shift, and go to state 124
+
+
+State 84
+
+   17 type: . tIDENTIFIER
+   18     | . tINT
+   19     | . tBOOL
+   20     | . tSTRING_TOKEN
+   21     | . '[' array_length ']' type
+   22     | . tSTRUCT property '{' var_decl_list '}'
+   23     | . tBYTE
+   24     | . tSHORT
+   25     | . tLONG
+   26     | . tFLOAT
+   27     | . tDOUBLE
+   28     | . tu8
+   29     | . tu16
+   30     | . tu32
+   31     | . tu64
+   32     | . tu128
+   33     | . tu256
+   34     | . tu512
+   35     | . tBITSET
+   36     | . tUNION '{' var_decl_list '}'
+   37     | . tVOID
+   42 var_type: tIDENTIFIER_DECL . type
+
+    tIDENTIFIER    shift, and go to state 25
+    tBYTE          shift, and go to state 26
+    tINT           shift, and go to state 27
+    tSHORT         shift, and go to state 28
+    tLONG          shift, and go to state 29
+    tFLOAT         shift, and go to state 30
+    tDOUBLE        shift, and go to state 31
+    tu8            shift, and go to state 32
+    tu16           shift, and go to state 33
+    tu32           shift, and go to state 34
+    tu64           shift, and go to state 35
+    tu128          shift, and go to state 36
+    tu256          shift, and go to state 37
+    tu512          shift, and go to state 38
+    tSTRING_TOKEN  shift, and go to state 39
+    tBOOL          shift, and go to state 40
+    tBITSET        shift, and go to state 41
+    tSTRUCT        shift, and go to state 42
+    tUNION         shift, and go to state 43
+    tVOID          shift, and go to state 44
+    '['            shift, and go to state 46
+
+    type  go to state 125
+
+
+State 85
+
+   40 var_decl_list: var_type ',' var_decl_list .
+
+    $default  reduce using rule 40 (var_decl_list)
+
+
+State 86
+
+   51 statement: tRETURN exp . ';'
+   67 exp: exp . '*' exp
+   68    | exp . '/' exp
+   69    | exp . '+' exp
+   70    | exp . '-' exp
+   71    | exp . tEQUALITY exp
+   72    | exp . tOR exp
+   73    | exp . tAND exp
+   74    | exp . tNON_EQUALITY exp
+   75    | exp . tGREATER_EQUAL exp
+   76    | exp . tLESSER_EQUAL exp
+   77    | exp . '>' exp
+   78    | exp . '<' exp
+
+    tEQUALITY       shift, and go to state 104
+    tLESSER_EQUAL   shift, and go to state 105
+    tGREATER_EQUAL  shift, and go to state 106
+    tNON_EQUALITY   shift, and go to state 107
+    tAND            shift, and go to state 108
+    tOR             shift, and go to state 109
+    '<'             shift, and go to state 110
+    '>'             shift, and go to state 111
+    '+'             shift, and go to state 112
+    '-'             shift, and go to state 113
+    '*'             shift, and go to state 114
+    '/'             shift, and go to state 115
+    ';'             shift, and go to state 126
+
+
+State 87
+
+   51 statement: . tRETURN exp ';'
+   52          | . tPRINT exp ';'
+   53          | . tALLOCATE variable ';'
+   54          | . tALLOCATE variable tOF_LENGTH exp ';'
+   55          | . variable '=' exp ';'
+   56          | . variable tPLUS_EQUAL exp ';'
+   57          | . variable tMINUS_EQUAL exp ';'
+   58          | . variable tTIMES_EQUAL exp ';'
+   59          | . variable tDIVIDE_EQUAL exp ';'
+   60          | . tIF exp statement
+   60          | tIF exp . statement
+   61          | . tIF exp statement tELSE statement
+   61          | tIF exp . statement tELSE statement
+   62          | . tWHILE exp statement
+   63          | . '{' statement_list '}'
+   64 variable: . tIDENTIFIER
+   65         | . variable '[' exp ']'
+   66         | . variable '.' tIDENTIFIER
+   67 exp: exp . '*' exp
+   68    | exp . '/' exp
+   69    | exp . '+' exp
+   70    | exp . '-' exp
+   71    | exp . tEQUALITY exp
+   72    | exp . tOR exp
+   73    | exp . tAND exp
+   74    | exp . tNON_EQUALITY exp
+   75    | exp . tGREATER_EQUAL exp
+   76    | exp . tLESSER_EQUAL exp
+   77    | exp . '>' exp
+   78    | exp . '<' exp
+
+    tIDENTIFIER     shift, and go to state 52
+    tEQUALITY       shift, and go to state 104
+    tLESSER_EQUAL   shift, and go to state 105
+    tGREATER_EQUAL  shift, and go to state 106
+    tNON_EQUALITY   shift, and go to state 107
+    tAND            shift, and go to state 108
+    tOR             shift, and go to state 109
+    tRETURN         shift, and go to state 53
+    tIF             shift, and go to state 54
+    tALLOCATE       shift, and go to state 55
+    tWHILE          shift, and go to state 56
+    tPRINT          shift, and go to state 57
+    '<'             shift, and go to state 110
+    '>'             shift, and go to state 111
+    '+'             shift, and go to state 112
+    '-'             shift, and go to state 113
+    '*'             shift, and go to state 114
+    '/'             shift, and go to state 115
+    '{'             shift, and go to state 58
+
+    statement  go to state 127
+    variable   go to state 60
+
+
+State 88
+
+   53 statement: tALLOCATE variable . ';'
+   54          | tALLOCATE variable . tOF_LENGTH exp ';'
+   65 variable: variable . '[' exp ']'
+   66         | variable . '.' tIDENTIFIER
+
+    tOF_LENGTH  shift, and go to state 128
+    '['         shift, and go to state 96
+    ';'         shift, and go to state 129
+    '.'         shift, and go to state 98
+
+
+State 89
+
+   51 statement: . tRETURN exp ';'
+   52          | . tPRINT exp ';'
+   53          | . tALLOCATE variable ';'
+   54          | . tALLOCATE variable tOF_LENGTH exp ';'
+   55          | . variable '=' exp ';'
+   56          | . variable tPLUS_EQUAL exp ';'
+   57          | . variable tMINUS_EQUAL exp ';'
+   58          | . variable tTIMES_EQUAL exp ';'
+   59          | . variable tDIVIDE_EQUAL exp ';'
+   60          | . tIF exp statement
+   61          | . tIF exp statement tELSE statement
+   62          | . tWHILE exp statement
+   62          | tWHILE exp . statement
+   63          | . '{' statement_list '}'
+   64 variable: . tIDENTIFIER
+   65         | . variable '[' exp ']'
+   66         | . variable '.' tIDENTIFIER
+   67 exp: exp . '*' exp
+   68    | exp . '/' exp
+   69    | exp . '+' exp
+   70    | exp . '-' exp
+   71    | exp . tEQUALITY exp
+   72    | exp . tOR exp
+   73    | exp . tAND exp
+   74    | exp . tNON_EQUALITY exp
+   75    | exp . tGREATER_EQUAL exp
+   76    | exp . tLESSER_EQUAL exp
+   77    | exp . '>' exp
+   78    | exp . '<' exp
+
+    tIDENTIFIER     shift, and go to state 52
+    tEQUALITY       shift, and go to state 104
+    tLESSER_EQUAL   shift, and go to state 105
+    tGREATER_EQUAL  shift, and go to state 106
+    tNON_EQUALITY   shift, and go to state 107
+    tAND            shift, and go to state 108
+    tOR             shift, and go to state 109
+    tRETURN         shift, and go to state 53
+    tIF             shift, and go to state 54
+    tALLOCATE       shift, and go to state 55
+    tWHILE          shift, and go to state 56
+    tPRINT          shift, and go to state 57
+    '<'             shift, and go to state 110
+    '>'             shift, and go to state 111
+    '+'             shift, and go to state 112
+    '-'             shift, and go to state 113
+    '*'             shift, and go to state 114
+    '/'             shift, and go to state 115
+    '{'             shift, and go to state 58
+
+    statement  go to state 130
+    variable   go to state 60
+
+
+State 90
+
+   52 statement: tPRINT exp . ';'
+   67 exp: exp . '*' exp
+   68    | exp . '/' exp
+   69    | exp . '+' exp
+   70    | exp . '-' exp
+   71    | exp . tEQUALITY exp
+   72    | exp . tOR exp
+   73    | exp . tAND exp
+   74    | exp . tNON_EQUALITY exp
+   75    | exp . tGREATER_EQUAL exp
+   76    | exp . tLESSER_EQUAL exp
+   77    | exp . '>' exp
+   78    | exp . '<' exp
+
+    tEQUALITY       shift, and go to state 104
+    tLESSER_EQUAL   shift, and go to state 105
+    tGREATER_EQUAL  shift, and go to state 106
+    tNON_EQUALITY   shift, and go to state 107
+    tAND            shift, and go to state 108
+    tOR             shift, and go to state 109
+    '<'             shift, and go to state 110
+    '>'             shift, and go to state 111
+    '+'             shift, and go to state 112
+    '-'             shift, and go to state 113
+    '*'             shift, and go to state 114
+    '/'             shift, and go to state 115
+    ';'             shift, and go to state 131
+
+
+State 91
+
+   50 statement_list: statement_list . statement
+   51 statement: . tRETURN exp ';'
+   52          | . tPRINT exp ';'
+   53          | . tALLOCATE variable ';'
+   54          | . tALLOCATE variable tOF_LENGTH exp ';'
+   55          | . variable '=' exp ';'
+   56          | . variable tPLUS_EQUAL exp ';'
+   57          | . variable tMINUS_EQUAL exp ';'
+   58          | . variable tTIMES_EQUAL exp ';'
+   59          | . variable tDIVIDE_EQUAL exp ';'
+   60          | . tIF exp statement
+   61          | . tIF exp statement tELSE statement
+   62          | . tWHILE exp statement
+   63          | . '{' statement_list '}'
+   63          | '{' statement_list . '}'
+   64 variable: . tIDENTIFIER
+   65         | . variable '[' exp ']'
+   66         | . variable '.' tIDENTIFIER
+
+    tIDENTIFIER  shift, and go to state 52
+    tRETURN      shift, and go to state 53
+    tIF          shift, and go to state 54
+    tALLOCATE    shift, and go to state 55
+    tWHILE       shift, and go to state 56
+    tPRINT       shift, and go to state 57
+    '{'          shift, and go to state 58
+    '}'          shift, and go to state 132
+
+    statement  go to state 59
+    variable   go to state 60
+
+
+State 92
+
+    3 string: . tSTRING
+    4       | . tSTRING '+' tSTRING
+   56 statement: variable tPLUS_EQUAL . exp ';'
+   64 variable: . tIDENTIFIER
+   65         | . variable '[' exp ']'
+   66         | . variable '.' tIDENTIFIER
+   67 exp: . exp '*' exp
+   68    | . exp '/' exp
+   69    | . exp '+' exp
+   70    | . exp '-' exp
+   71    | . exp tEQUALITY exp
+   72    | . exp tOR exp
+   73    | . exp tAND exp
+   74    | . exp tNON_EQUALITY exp
+   75    | . exp tGREATER_EQUAL exp
+   76    | . exp tLESSER_EQUAL exp
+   77    | . exp '>' exp
+   78    | . exp '<' exp
+   79    | . term
+   80 term: . variable
+   81     | . tIDENTIFIER '(' act_list ')'
+   82     | . '(' exp ')'
+   83     | . '!' term
+   84     | . '|' exp '|'
+   85     | . tINTCONST
+   86     | . tTRUE
+   87     | . tFALSE
+   88     | . tNULL
+   89     | . string
+
+    tINTCONST    shift, and go to state 61
+    tIDENTIFIER  shift, and go to state 62
+    tSTRING      shift, and go to state 63
+    tTRUE        shift, and go to state 64
+    tFALSE       shift, and go to state 65
+    tNULL        shift, and go to state 66
+    '('          shift, and go to state 67
+    '!'          shift, and go to state 68
+    '|'          shift, and go to state 69
+
+    string    go to state 70
+    variable  go to state 71
+    exp       go to state 133
+    term      go to state 73
+
+
+State 93
+
+    3 string: . tSTRING
+    4       | . tSTRING '+' tSTRING
+   57 statement: variable tMINUS_EQUAL . exp ';'
+   64 variable: . tIDENTIFIER
+   65         | . variable '[' exp ']'
+   66         | . variable '.' tIDENTIFIER
+   67 exp: . exp '*' exp
+   68    | . exp '/' exp
+   69    | . exp '+' exp
+   70    | . exp '-' exp
+   71    | . exp tEQUALITY exp
+   72    | . exp tOR exp
+   73    | . exp tAND exp
+   74    | . exp tNON_EQUALITY exp
+   75    | . exp tGREATER_EQUAL exp
+   76    | . exp tLESSER_EQUAL exp
+   77    | . exp '>' exp
+   78    | . exp '<' exp
+   79    | . term
+   80 term: . variable
+   81     | . tIDENTIFIER '(' act_list ')'
+   82     | . '(' exp ')'
+   83     | . '!' term
+   84     | . '|' exp '|'
+   85     | . tINTCONST
+   86     | . tTRUE
+   87     | . tFALSE
+   88     | . tNULL
+   89     | . string
+
+    tINTCONST    shift, and go to state 61
+    tIDENTIFIER  shift, and go to state 62
+    tSTRING      shift, and go to state 63
+    tTRUE        shift, and go to state 64
+    tFALSE       shift, and go to state 65
+    tNULL        shift, and go to state 66
+    '('          shift, and go to state 67
+    '!'          shift, and go to state 68
+    '|'          shift, and go to state 69
+
+    string    go to state 70
+    variable  go to state 71
+    exp       go to state 134
+    term      go to state 73
+
+
+State 94
+
+    3 string: . tSTRING
+    4       | . tSTRING '+' tSTRING
+   58 statement: variable tTIMES_EQUAL . exp ';'
+   64 variable: . tIDENTIFIER
+   65         | . variable '[' exp ']'
+   66         | . variable '.' tIDENTIFIER
+   67 exp: . exp '*' exp
+   68    | . exp '/' exp
+   69    | . exp '+' exp
+   70    | . exp '-' exp
+   71    | . exp tEQUALITY exp
+   72    | . exp tOR exp
+   73    | . exp tAND exp
+   74    | . exp tNON_EQUALITY exp
+   75    | . exp tGREATER_EQUAL exp
+   76    | . exp tLESSER_EQUAL exp
+   77    | . exp '>' exp
+   78    | . exp '<' exp
+   79    | . term
+   80 term: . variable
+   81     | . tIDENTIFIER '(' act_list ')'
+   82     | . '(' exp ')'
+   83     | . '!' term
+   84     | . '|' exp '|'
+   85     | . tINTCONST
+   86     | . tTRUE
+   87     | . tFALSE
+   88     | . tNULL
+   89     | . string
+
+    tINTCONST    shift, and go to state 61
+    tIDENTIFIER  shift, and go to state 62
+    tSTRING      shift, and go to state 63
+    tTRUE        shift, and go to state 64
+    tFALSE       shift, and go to state 65
+    tNULL        shift, and go to state 66
+    '('          shift, and go to state 67
+    '!'          shift, and go to state 68
+    '|'          shift, and go to state 69
+
+    string    go to state 70
+    variable  go to state 71
+    exp       go to state 135
+    term      go to state 73
+
+
+State 95
+
+    3 string: . tSTRING
+    4       | . tSTRING '+' tSTRING
+   59 statement: variable tDIVIDE_EQUAL . exp ';'
+   64 variable: . tIDENTIFIER
+   65         | . variable '[' exp ']'
+   66         | . variable '.' tIDENTIFIER
+   67 exp: . exp '*' exp
+   68    | . exp '/' exp
+   69    | . exp '+' exp
+   70    | . exp '-' exp
+   71    | . exp tEQUALITY exp
+   72    | . exp tOR exp
+   73    | . exp tAND exp
+   74    | . exp tNON_EQUALITY exp
+   75    | . exp tGREATER_EQUAL exp
+   76    | . exp tLESSER_EQUAL exp
+   77    | . exp '>' exp
+   78    | . exp '<' exp
+   79    | . term
+   80 term: . variable
+   81     | . tIDENTIFIER '(' act_list ')'
+   82     | . '(' exp ')'
+   83     | . '!' term
+   84     | . '|' exp '|'
+   85     | . tINTCONST
+   86     | . tTRUE
+   87     | . tFALSE
+   88     | . tNULL
+   89     | . string
+
+    tINTCONST    shift, and go to state 61
+    tIDENTIFIER  shift, and go to state 62
+    tSTRING      shift, and go to state 63
+    tTRUE        shift, and go to state 64
+    tFALSE       shift, and go to state 65
+    tNULL        shift, and go to state 66
+    '('          shift, and go to state 67
+    '!'          shift, and go to state 68
+    '|'          shift, and go to state 69
+
+    string    go to state 70
+    variable  go to state 71
+    exp       go to state 136
+    term      go to state 73
+
+
+State 96
+
+    3 string: . tSTRING
+    4       | . tSTRING '+' tSTRING
+   64 variable: . tIDENTIFIER
+   65         | . variable '[' exp ']'
+   65         | variable '[' . exp ']'
+   66         | . variable '.' tIDENTIFIER
+   67 exp: . exp '*' exp
+   68    | . exp '/' exp
+   69    | . exp '+' exp
+   70    | . exp '-' exp
+   71    | . exp tEQUALITY exp
+   72    | . exp tOR exp
+   73    | . exp tAND exp
+   74    | . exp tNON_EQUALITY exp
+   75    | . exp tGREATER_EQUAL exp
+   76    | . exp tLESSER_EQUAL exp
+   77    | . exp '>' exp
+   78    | . exp '<' exp
+   79    | . term
+   80 term: . variable
+   81     | . tIDENTIFIER '(' act_list ')'
+   82     | . '(' exp ')'
+   83     | . '!' term
+   84     | . '|' exp '|'
+   85     | . tINTCONST
+   86     | . tTRUE
+   87     | . tFALSE
+   88     | . tNULL
+   89     | . string
+
+    tINTCONST    shift, and go to state 61
+    tIDENTIFIER  shift, and go to state 62
+    tSTRING      shift, and go to state 63
+    tTRUE        shift, and go to state 64
+    tFALSE       shift, and go to state 65
+    tNULL        shift, and go to state 66
+    '('          shift, and go to state 67
+    '!'          shift, and go to state 68
+    '|'          shift, and go to state 69
+
+    string    go to state 70
+    variable  go to state 71
+    exp       go to state 137
+    term      go to state 73
+
+
+State 97
+
+    3 string: . tSTRING
+    4       | . tSTRING '+' tSTRING
+   55 statement: variable '=' . exp ';'
+   64 variable: . tIDENTIFIER
+   65         | . variable '[' exp ']'
+   66         | . variable '.' tIDENTIFIER
+   67 exp: . exp '*' exp
+   68    | . exp '/' exp
+   69    | . exp '+' exp
+   70    | . exp '-' exp
+   71    | . exp tEQUALITY exp
+   72    | . exp tOR exp
+   73    | . exp tAND exp
+   74    | . exp tNON_EQUALITY exp
+   75    | . exp tGREATER_EQUAL exp
+   76    | . exp tLESSER_EQUAL exp
+   77    | . exp '>' exp
+   78    | . exp '<' exp
+   79    | . term
+   80 term: . variable
+   81     | . tIDENTIFIER '(' act_list ')'
+   82     | . '(' exp ')'
+   83     | . '!' term
+   84     | . '|' exp '|'
+   85     | . tINTCONST
+   86     | . tTRUE
+   87     | . tFALSE
+   88     | . tNULL
+   89     | . string
+
+    tINTCONST    shift, and go to state 61
+    tIDENTIFIER  shift, and go to state 62
+    tSTRING      shift, and go to state 63
+    tTRUE        shift, and go to state 64
+    tFALSE       shift, and go to state 65
+    tNULL        shift, and go to state 66
+    '('          shift, and go to state 67
+    '!'          shift, and go to state 68
+    '|'          shift, and go to state 69
+
+    string    go to state 70
+    variable  go to state 71
+    exp       go to state 138
+    term      go to state 73
+
+
+State 98
+
+   66 variable: variable '.' . tIDENTIFIER
+
+    tIDENTIFIER  shift, and go to state 139
+
+
+State 99
+
+    3 string: . tSTRING
+    4       | . tSTRING '+' tSTRING
+   64 variable: . tIDENTIFIER
+   65         | . variable '[' exp ']'
+   66         | . variable '.' tIDENTIFIER
+   67 exp: . exp '*' exp
+   68    | . exp '/' exp
+   69    | . exp '+' exp
+   70    | . exp '-' exp
+   71    | . exp tEQUALITY exp
+   72    | . exp tOR exp
+   73    | . exp tAND exp
+   74    | . exp tNON_EQUALITY exp
+   75    | . exp tGREATER_EQUAL exp
+   76    | . exp tLESSER_EQUAL exp
+   77    | . exp '>' exp
+   78    | . exp '<' exp
+   79    | . term
+   80 term: . variable
+   81     | . tIDENTIFIER '(' act_list ')'
+   81     | tIDENTIFIER '(' . act_list ')'
+   82     | . '(' exp ')'
+   83     | . '!' term
+   84     | . '|' exp '|'
+   85     | . tINTCONST
+   86     | . tTRUE
+   87     | . tFALSE
+   88     | . tNULL
+   89     | . string
+   90 act_list: . exp_list
+   91         | . %empty  [')']
+   92 exp_list: . exp
+   93         | . exp ',' exp_list
+
+    tINTCONST    shift, and go to state 61
+    tIDENTIFIER  shift, and go to state 62
+    tSTRING      shift, and go to state 63
+    tTRUE        shift, and go to state 64
+    tFALSE       shift, and go to state 65
+    tNULL        shift, and go to state 66
+    '('          shift, and go to state 67
+    '!'          shift, and go to state 68
+    '|'          shift, and go to state 69
+
+    $default  reduce using rule 91 (act_list)
+
+    string    go to state 70
+    variable  go to state 71
+    exp       go to state 72
+    term      go to state 73
+    act_list  go to state 140
+    exp_list  go to state 75
+
+
+State 100
+
+    4 string: tSTRING '+' . tSTRING
+
+    tSTRING  shift, and go to state 141
+
+
+State 101
+
+   67 exp: exp . '*' exp
+   68    | exp . '/' exp
+   69    | exp . '+' exp
+   70    | exp . '-' exp
+   71    | exp . tEQUALITY exp
+   72    | exp . tOR exp
+   73    | exp . tAND exp
+   74    | exp . tNON_EQUALITY exp
+   75    | exp . tGREATER_EQUAL exp
+   76    | exp . tLESSER_EQUAL exp
+   77    | exp . '>' exp
+   78    | exp . '<' exp
+   82 term: '(' exp . ')'
+
+    tEQUALITY       shift, and go to state 104
+    tLESSER_EQUAL   shift, and go to state 105
+    tGREATER_EQUAL  shift, and go to state 106
+    tNON_EQUALITY   shift, and go to state 107
+    tAND            shift, and go to state 108
+    tOR             shift, and go to state 109
+    '<'             shift, and go to state 110
+    '>'             shift, and go to state 111
+    '+'             shift, and go to state 112
+    '-'             shift, and go to state 113
+    '*'             shift, and go to state 114
+    '/'             shift, and go to state 115
+    ')'             shift, and go to state 142
+
+
+State 102
+
+   83 term: '!' term .
+
+    $default  reduce using rule 83 (term)
+
+
+State 103
+
+   67 exp: exp . '*' exp
+   68    | exp . '/' exp
+   69    | exp . '+' exp
+   70    | exp . '-' exp
+   71    | exp . tEQUALITY exp
+   72    | exp . tOR exp
+   73    | exp . tAND exp
+   74    | exp . tNON_EQUALITY exp
+   75    | exp . tGREATER_EQUAL exp
+   76    | exp . tLESSER_EQUAL exp
+   77    | exp . '>' exp
+   78    | exp . '<' exp
+   84 term: '|' exp . '|'
+
+    tEQUALITY       shift, and go to state 104
+    tLESSER_EQUAL   shift, and go to state 105
+    tGREATER_EQUAL  shift, and go to state 106
+    tNON_EQUALITY   shift, and go to state 107
+    tAND            shift, and go to state 108
+    tOR             shift, and go to state 109
+    '<'             shift, and go to state 110
+    '>'             shift, and go to state 111
+    '+'             shift, and go to state 112
+    '-'             shift, and go to state 113
+    '*'             shift, and go to state 114
+    '/'             shift, and go to state 115
+    '|'             shift, and go to state 143
+
+
+State 104
+
+    3 string: . tSTRING
+    4       | . tSTRING '+' tSTRING
+   64 variable: . tIDENTIFIER
+   65         | . variable '[' exp ']'
+   66         | . variable '.' tIDENTIFIER
+   67 exp: . exp '*' exp
+   68    | . exp '/' exp
+   69    | . exp '+' exp
+   70    | . exp '-' exp
+   71    | . exp tEQUALITY exp
+   71    | exp tEQUALITY . exp
+   72    | . exp tOR exp
+   73    | . exp tAND exp
+   74    | . exp tNON_EQUALITY exp
+   75    | . exp tGREATER_EQUAL exp
+   76    | . exp tLESSER_EQUAL exp
+   77    | . exp '>' exp
+   78    | . exp '<' exp
+   79    | . term
+   80 term: . variable
+   81     | . tIDENTIFIER '(' act_list ')'
+   82     | . '(' exp ')'
+   83     | . '!' term
+   84     | . '|' exp '|'
+   85     | . tINTCONST
+   86     | . tTRUE
+   87     | . tFALSE
+   88     | . tNULL
+   89     | . string
+
+    tINTCONST    shift, and go to state 61
+    tIDENTIFIER  shift, and go to state 62
+    tSTRING      shift, and go to state 63
+    tTRUE        shift, and go to state 64
+    tFALSE       shift, and go to state 65
+    tNULL        shift, and go to state 66
+    '('          shift, and go to state 67
+    '!'          shift, and go to state 68
+    '|'          shift, and go to state 69
+
+    string    go to state 70
+    variable  go to state 71
+    exp       go to state 144
+    term      go to state 73
+
+
+State 105
+
+    3 string: . tSTRING
+    4       | . tSTRING '+' tSTRING
+   64 variable: . tIDENTIFIER
+   65         | . variable '[' exp ']'
+   66         | . variable '.' tIDENTIFIER
+   67 exp: . exp '*' exp
+   68    | . exp '/' exp
+   69    | . exp '+' exp
+   70    | . exp '-' exp
+   71    | . exp tEQUALITY exp
+   72    | . exp tOR exp
+   73    | . exp tAND exp
+   74    | . exp tNON_EQUALITY exp
+   75    | . exp tGREATER_EQUAL exp
+   76    | . exp tLESSER_EQUAL exp
+   76    | exp tLESSER_EQUAL . exp
+   77    | . exp '>' exp
+   78    | . exp '<' exp
+   79    | . term
+   80 term: . variable
+   81     | . tIDENTIFIER '(' act_list ')'
+   82     | . '(' exp ')'
+   83     | . '!' term
+   84     | . '|' exp '|'
+   85     | . tINTCONST
+   86     | . tTRUE
+   87     | . tFALSE
+   88     | . tNULL
+   89     | . string
+
+    tINTCONST    shift, and go to state 61
+    tIDENTIFIER  shift, and go to state 62
+    tSTRING      shift, and go to state 63
+    tTRUE        shift, and go to state 64
+    tFALSE       shift, and go to state 65
+    tNULL        shift, and go to state 66
+    '('          shift, and go to state 67
+    '!'          shift, and go to state 68
+    '|'          shift, and go to state 69
+
+    string    go to state 70
+    variable  go to state 71
+    exp       go to state 145
+    term      go to state 73
+
+
+State 106
+
+    3 string: . tSTRING
+    4       | . tSTRING '+' tSTRING
+   64 variable: . tIDENTIFIER
+   65         | . variable '[' exp ']'
+   66         | . variable '.' tIDENTIFIER
+   67 exp: . exp '*' exp
+   68    | . exp '/' exp
+   69    | . exp '+' exp
+   70    | . exp '-' exp
+   71    | . exp tEQUALITY exp
+   72    | . exp tOR exp
+   73    | . exp tAND exp
+   74    | . exp tNON_EQUALITY exp
+   75    | . exp tGREATER_EQUAL exp
+   75    | exp tGREATER_EQUAL . exp
+   76    | . exp tLESSER_EQUAL exp
+   77    | . exp '>' exp
+   78    | . exp '<' exp
+   79    | . term
+   80 term: . variable
+   81     | . tIDENTIFIER '(' act_list ')'
+   82     | . '(' exp ')'
+   83     | . '!' term
+   84     | . '|' exp '|'
+   85     | . tINTCONST
+   86     | . tTRUE
+   87     | . tFALSE
+   88     | . tNULL
+   89     | . string
+
+    tINTCONST    shift, and go to state 61
+    tIDENTIFIER  shift, and go to state 62
+    tSTRING      shift, and go to state 63
+    tTRUE        shift, and go to state 64
+    tFALSE       shift, and go to state 65
+    tNULL        shift, and go to state 66
+    '('          shift, and go to state 67
+    '!'          shift, and go to state 68
+    '|'          shift, and go to state 69
+
+    string    go to state 70
+    variable  go to state 71
+    exp       go to state 146
+    term      go to state 73
+
+
+State 107
+
+    3 string: . tSTRING
+    4       | . tSTRING '+' tSTRING
+   64 variable: . tIDENTIFIER
+   65         | . variable '[' exp ']'
+   66         | . variable '.' tIDENTIFIER
+   67 exp: . exp '*' exp
+   68    | . exp '/' exp
+   69    | . exp '+' exp
+   70    | . exp '-' exp
+   71    | . exp tEQUALITY exp
+   72    | . exp tOR exp
+   73    | . exp tAND exp
+   74    | . exp tNON_EQUALITY exp
+   74    | exp tNON_EQUALITY . exp
+   75    | . exp tGREATER_EQUAL exp
+   76    | . exp tLESSER_EQUAL exp
+   77    | . exp '>' exp
+   78    | . exp '<' exp
+   79    | . term
+   80 term: . variable
+   81     | . tIDENTIFIER '(' act_list ')'
+   82     | . '(' exp ')'
+   83     | . '!' term
+   84     | . '|' exp '|'
+   85     | . tINTCONST
+   86     | . tTRUE
+   87     | . tFALSE
+   88     | . tNULL
+   89     | . string
+
+    tINTCONST    shift, and go to state 61
+    tIDENTIFIER  shift, and go to state 62
+    tSTRING      shift, and go to state 63
+    tTRUE        shift, and go to state 64
+    tFALSE       shift, and go to state 65
+    tNULL        shift, and go to state 66
+    '('          shift, and go to state 67
+    '!'          shift, and go to state 68
+    '|'          shift, and go to state 69
+
+    string    go to state 70
+    variable  go to state 71
+    exp       go to state 147
+    term      go to state 73
+
+
+State 108
+
+    3 string: . tSTRING
+    4       | . tSTRING '+' tSTRING
+   64 variable: . tIDENTIFIER
+   65         | . variable '[' exp ']'
+   66         | . variable '.' tIDENTIFIER
+   67 exp: . exp '*' exp
+   68    | . exp '/' exp
+   69    | . exp '+' exp
+   70    | . exp '-' exp
+   71    | . exp tEQUALITY exp
+   72    | . exp tOR exp
+   73    | . exp tAND exp
+   73    | exp tAND . exp
+   74    | . exp tNON_EQUALITY exp
+   75    | . exp tGREATER_EQUAL exp
+   76    | . exp tLESSER_EQUAL exp
+   77    | . exp '>' exp
+   78    | . exp '<' exp
+   79    | . term
+   80 term: . variable
+   81     | . tIDENTIFIER '(' act_list ')'
+   82     | . '(' exp ')'
+   83     | . '!' term
+   84     | . '|' exp '|'
+   85     | . tINTCONST
+   86     | . tTRUE
+   87     | . tFALSE
+   88     | . tNULL
+   89     | . string
+
+    tINTCONST    shift, and go to state 61
+    tIDENTIFIER  shift, and go to state 62
+    tSTRING      shift, and go to state 63
+    tTRUE        shift, and go to state 64
+    tFALSE       shift, and go to state 65
+    tNULL        shift, and go to state 66
+    '('          shift, and go to state 67
+    '!'          shift, and go to state 68
+    '|'          shift, and go to state 69
+
+    string    go to state 70
+    variable  go to state 71
+    exp       go to state 148
+    term      go to state 73
+
+
+State 109
+
+    3 string: . tSTRING
+    4       | . tSTRING '+' tSTRING
+   64 variable: . tIDENTIFIER
+   65         | . variable '[' exp ']'
+   66         | . variable '.' tIDENTIFIER
+   67 exp: . exp '*' exp
+   68    | . exp '/' exp
+   69    | . exp '+' exp
+   70    | . exp '-' exp
+   71    | . exp tEQUALITY exp
+   72    | . exp tOR exp
+   72    | exp tOR . exp
+   73    | . exp tAND exp
+   74    | . exp tNON_EQUALITY exp
+   75    | . exp tGREATER_EQUAL exp
+   76    | . exp tLESSER_EQUAL exp
+   77    | . exp '>' exp
+   78    | . exp '<' exp
+   79    | . term
+   80 term: . variable
+   81     | . tIDENTIFIER '(' act_list ')'
+   82     | . '(' exp ')'
+   83     | . '!' term
+   84     | . '|' exp '|'
+   85     | . tINTCONST
+   86     | . tTRUE
+   87     | . tFALSE
+   88     | . tNULL
+   89     | . string
+
+    tINTCONST    shift, and go to state 61
+    tIDENTIFIER  shift, and go to state 62
+    tSTRING      shift, and go to state 63
+    tTRUE        shift, and go to state 64
+    tFALSE       shift, and go to state 65
+    tNULL        shift, and go to state 66
+    '('          shift, and go to state 67
+    '!'          shift, and go to state 68
+    '|'          shift, and go to state 69
+
+    string    go to state 70
+    variable  go to state 71
+    exp       go to state 149
+    term      go to state 73
+
+
+State 110
+
+    3 string: . tSTRING
+    4       | . tSTRING '+' tSTRING
+   64 variable: . tIDENTIFIER
+   65         | . variable '[' exp ']'
+   66         | . variable '.' tIDENTIFIER
+   67 exp: . exp '*' exp
+   68    | . exp '/' exp
+   69    | . exp '+' exp
+   70    | . exp '-' exp
+   71    | . exp tEQUALITY exp
+   72    | . exp tOR exp
+   73    | . exp tAND exp
+   74    | . exp tNON_EQUALITY exp
+   75    | . exp tGREATER_EQUAL exp
+   76    | . exp tLESSER_EQUAL exp
+   77    | . exp '>' exp
+   78    | . exp '<' exp
+   78    | exp '<' . exp
+   79    | . term
+   80 term: . variable
+   81     | . tIDENTIFIER '(' act_list ')'
+   82     | . '(' exp ')'
+   83     | . '!' term
+   84     | . '|' exp '|'
+   85     | . tINTCONST
+   86     | . tTRUE
+   87     | . tFALSE
+   88     | . tNULL
+   89     | . string
+
+    tINTCONST    shift, and go to state 61
+    tIDENTIFIER  shift, and go to state 62
+    tSTRING      shift, and go to state 63
+    tTRUE        shift, and go to state 64
+    tFALSE       shift, and go to state 65
+    tNULL        shift, and go to state 66
+    '('          shift, and go to state 67
+    '!'          shift, and go to state 68
+    '|'          shift, and go to state 69
+
+    string    go to state 70
+    variable  go to state 71
+    exp       go to state 150
+    term      go to state 73
+
+
+State 111
+
+    3 string: . tSTRING
+    4       | . tSTRING '+' tSTRING
+   64 variable: . tIDENTIFIER
+   65         | . variable '[' exp ']'
+   66         | . variable '.' tIDENTIFIER
+   67 exp: . exp '*' exp
+   68    | . exp '/' exp
+   69    | . exp '+' exp
+   70    | . exp '-' exp
+   71    | . exp tEQUALITY exp
+   72    | . exp tOR exp
+   73    | . exp tAND exp
+   74    | . exp tNON_EQUALITY exp
+   75    | . exp tGREATER_EQUAL exp
+   76    | . exp tLESSER_EQUAL exp
+   77    | . exp '>' exp
+   77    | exp '>' . exp
+   78    | . exp '<' exp
+   79    | . term
+   80 term: . variable
+   81     | . tIDENTIFIER '(' act_list ')'
+   82     | . '(' exp ')'
+   83     | . '!' term
+   84     | . '|' exp '|'
+   85     | . tINTCONST
+   86     | . tTRUE
+   87     | . tFALSE
+   88     | . tNULL
+   89     | . string
+
+    tINTCONST    shift, and go to state 61
+    tIDENTIFIER  shift, and go to state 62
+    tSTRING      shift, and go to state 63
+    tTRUE        shift, and go to state 64
+    tFALSE       shift, and go to state 65
+    tNULL        shift, and go to state 66
+    '('          shift, and go to state 67
+    '!'          shift, and go to state 68
+    '|'          shift, and go to state 69
+
+    string    go to state 70
+    variable  go to state 71
+    exp       go to state 151
+    term      go to state 73
+
+
+State 112
+
+    3 string: . tSTRING
+    4       | . tSTRING '+' tSTRING
+   64 variable: . tIDENTIFIER
+   65         | . variable '[' exp ']'
+   66         | . variable '.' tIDENTIFIER
+   67 exp: . exp '*' exp
+   68    | . exp '/' exp
+   69    | . exp '+' exp
+   69    | exp '+' . exp
+   70    | . exp '-' exp
+   71    | . exp tEQUALITY exp
+   72    | . exp tOR exp
+   73    | . exp tAND exp
+   74    | . exp tNON_EQUALITY exp
+   75    | . exp tGREATER_EQUAL exp
+   76    | . exp tLESSER_EQUAL exp
+   77    | . exp '>' exp
+   78    | . exp '<' exp
+   79    | . term
+   80 term: . variable
+   81     | . tIDENTIFIER '(' act_list ')'
+   82     | . '(' exp ')'
+   83     | . '!' term
+   84     | . '|' exp '|'
+   85     | . tINTCONST
+   86     | . tTRUE
+   87     | . tFALSE
+   88     | . tNULL
+   89     | . string
+
+    tINTCONST    shift, and go to state 61
+    tIDENTIFIER  shift, and go to state 62
+    tSTRING      shift, and go to state 63
+    tTRUE        shift, and go to state 64
+    tFALSE       shift, and go to state 65
+    tNULL        shift, and go to state 66
+    '('          shift, and go to state 67
+    '!'          shift, and go to state 68
+    '|'          shift, and go to state 69
+
+    string    go to state 70
+    variable  go to state 71
+    exp       go to state 152
+    term      go to state 73
+
+
+State 113
+
+    3 string: . tSTRING
+    4       | . tSTRING '+' tSTRING
+   64 variable: . tIDENTIFIER
+   65         | . variable '[' exp ']'
+   66         | . variable '.' tIDENTIFIER
+   67 exp: . exp '*' exp
+   68    | . exp '/' exp
+   69    | . exp '+' exp
+   70    | . exp '-' exp
+   70    | exp '-' . exp
+   71    | . exp tEQUALITY exp
+   72    | . exp tOR exp
+   73    | . exp tAND exp
+   74    | . exp tNON_EQUALITY exp
+   75    | . exp tGREATER_EQUAL exp
+   76    | . exp tLESSER_EQUAL exp
+   77    | . exp '>' exp
+   78    | . exp '<' exp
+   79    | . term
+   80 term: . variable
+   81     | . tIDENTIFIER '(' act_list ')'
+   82     | . '(' exp ')'
+   83     | . '!' term
+   84     | . '|' exp '|'
+   85     | . tINTCONST
+   86     | . tTRUE
+   87     | . tFALSE
+   88     | . tNULL
+   89     | . string
+
+    tINTCONST    shift, and go to state 61
+    tIDENTIFIER  shift, and go to state 62
+    tSTRING      shift, and go to state 63
+    tTRUE        shift, and go to state 64
+    tFALSE       shift, and go to state 65
+    tNULL        shift, and go to state 66
+    '('          shift, and go to state 67
+    '!'          shift, and go to state 68
+    '|'          shift, and go to state 69
+
+    string    go to state 70
+    variable  go to state 71
+    exp       go to state 153
+    term      go to state 73
+
+
+State 114
+
+    3 string: . tSTRING
+    4       | . tSTRING '+' tSTRING
+   64 variable: . tIDENTIFIER
+   65         | . variable '[' exp ']'
+   66         | . variable '.' tIDENTIFIER
+   67 exp: . exp '*' exp
+   67    | exp '*' . exp
+   68    | . exp '/' exp
+   69    | . exp '+' exp
+   70    | . exp '-' exp
+   71    | . exp tEQUALITY exp
+   72    | . exp tOR exp
+   73    | . exp tAND exp
+   74    | . exp tNON_EQUALITY exp
+   75    | . exp tGREATER_EQUAL exp
+   76    | . exp tLESSER_EQUAL exp
+   77    | . exp '>' exp
+   78    | . exp '<' exp
+   79    | . term
+   80 term: . variable
+   81     | . tIDENTIFIER '(' act_list ')'
+   82     | . '(' exp ')'
+   83     | . '!' term
+   84     | . '|' exp '|'
+   85     | . tINTCONST
+   86     | . tTRUE
+   87     | . tFALSE
+   88     | . tNULL
+   89     | . string
+
+    tINTCONST    shift, and go to state 61
+    tIDENTIFIER  shift, and go to state 62
+    tSTRING      shift, and go to state 63
+    tTRUE        shift, and go to state 64
+    tFALSE       shift, and go to state 65
+    tNULL        shift, and go to state 66
+    '('          shift, and go to state 67
+    '!'          shift, and go to state 68
+    '|'          shift, and go to state 69
+
+    string    go to state 70
+    variable  go to state 71
+    exp       go to state 154
+    term      go to state 73
+
+
+State 115
+
+    3 string: . tSTRING
+    4       | . tSTRING '+' tSTRING
+   64 variable: . tIDENTIFIER
+   65         | . variable '[' exp ']'
+   66         | . variable '.' tIDENTIFIER
+   67 exp: . exp '*' exp
+   68    | . exp '/' exp
+   68    | exp '/' . exp
+   69    | . exp '+' exp
+   70    | . exp '-' exp
+   71    | . exp tEQUALITY exp
+   72    | . exp tOR exp
+   73    | . exp tAND exp
+   74    | . exp tNON_EQUALITY exp
+   75    | . exp tGREATER_EQUAL exp
+   76    | . exp tLESSER_EQUAL exp
+   77    | . exp '>' exp
+   78    | . exp '<' exp
+   79    | . term
+   80 term: . variable
+   81     | . tIDENTIFIER '(' act_list ')'
+   82     | . '(' exp ')'
+   83     | . '!' term
+   84     | . '|' exp '|'
+   85     | . tINTCONST
+   86     | . tTRUE
+   87     | . tFALSE
+   88     | . tNULL
+   89     | . string
+
+    tINTCONST    shift, and go to state 61
+    tIDENTIFIER  shift, and go to state 62
+    tSTRING      shift, and go to state 63
+    tTRUE        shift, and go to state 64
+    tFALSE       shift, and go to state 65
+    tNULL        shift, and go to state 66
+    '('          shift, and go to state 67
+    '!'          shift, and go to state 68
+    '|'          shift, and go to state 69
+
+    string    go to state 70
+    variable  go to state 71
+    exp       go to state 155
+    term      go to state 73
+
+
+State 116
+
+    3 string: . tSTRING
+    4       | . tSTRING '+' tSTRING
+   64 variable: . tIDENTIFIER
+   65         | . variable '[' exp ']'
+   66         | . variable '.' tIDENTIFIER
+   67 exp: . exp '*' exp
+   68    | . exp '/' exp
+   69    | . exp '+' exp
+   70    | . exp '-' exp
+   71    | . exp tEQUALITY exp
+   72    | . exp tOR exp
+   73    | . exp tAND exp
+   74    | . exp tNON_EQUALITY exp
+   75    | . exp tGREATER_EQUAL exp
+   76    | . exp tLESSER_EQUAL exp
+   77    | . exp '>' exp
+   78    | . exp '<' exp
+   79    | . term
+   80 term: . variable
+   81     | . tIDENTIFIER '(' act_list ')'
+   82     | . '(' exp ')'
+   83     | . '!' term
+   84     | . '|' exp '|'
+   85     | . tINTCONST
+   86     | . tTRUE
+   87     | . tFALSE
+   88     | . tNULL
+   89     | . string
+   92 exp_list: . exp
+   93         | . exp ',' exp_list
+   93         | exp ',' . exp_list
+
+    tINTCONST    shift, and go to state 61
+    tIDENTIFIER  shift, and go to state 62
+    tSTRING      shift, and go to state 63
+    tTRUE        shift, and go to state 64
+    tFALSE       shift, and go to state 65
+    tNULL        shift, and go to state 66
+    '('          shift, and go to state 67
+    '!'          shift, and go to state 68
+    '|'          shift, and go to state 69
+
+    string    go to state 70
+    variable  go to state 71
+    exp       go to state 72
+    term      go to state 73
+    exp_list  go to state 156
+
+
+State 117
+
+    9 directive: tCOMMAND_BUILD tIDENTIFIER '(' act_list ')' .
+
+    $default  reduce using rule 9 (directive)
+
+
+State 118
+
+   22 type: tSTRUCT property '{' . var_decl_list '}'
+   40 var_decl_list: . var_type ',' var_decl_list
+   41              | . var_type
+   42 var_type: . tIDENTIFIER_DECL type
+
+    tIDENTIFIER_DECL  shift, and go to state 84
+
+    var_decl_list  go to state 157
+    var_type       go to state 20
+
+
+State 119
+
+   36 type: tUNION '{' var_decl_list . '}'
+
+    '}'  shift, and go to state 158
+
+
+State 120
+
+   12 head: tIDENTIFIER_DECL ':' '(' par_decl_list . ')' tRIGHT_ARROW type
+
+    ')'  shift, and go to state 159
+
+
+State 121
+
+   38 par_decl_list: var_decl_list .
+
+    $default  reduce using rule 38 (par_decl_list)
+
+
+State 122
+
+   17 type: . tIDENTIFIER
+   18     | . tINT
+   19     | . tBOOL
+   20     | . tSTRING_TOKEN
+   21     | . '[' array_length ']' type
+   21     | '[' array_length ']' . type
+   22     | . tSTRUCT property '{' var_decl_list '}'
+   23     | . tBYTE
+   24     | . tSHORT
+   25     | . tLONG
+   26     | . tFLOAT
+   27     | . tDOUBLE
+   28     | . tu8
+   29     | . tu16
+   30     | . tu32
+   31     | . tu64
+   32     | . tu128
+   33     | . tu256
+   34     | . tu512
+   35     | . tBITSET
+   36     | . tUNION '{' var_decl_list '}'
+   37     | . tVOID
+
+    tIDENTIFIER    shift, and go to state 25
+    tBYTE          shift, and go to state 26
+    tINT           shift, and go to state 27
+    tSHORT         shift, and go to state 28
+    tLONG          shift, and go to state 29
+    tFLOAT         shift, and go to state 30
+    tDOUBLE        shift, and go to state 31
+    tu8            shift, and go to state 32
+    tu16           shift, and go to state 33
+    tu32           shift, and go to state 34
+    tu64           shift, and go to state 35
+    tu128          shift, and go to state 36
+    tu256          shift, and go to state 37
+    tu512          shift, and go to state 38
+    tSTRING_TOKEN  shift, and go to state 39
+    tBOOL          shift, and go to state 40
+    tBITSET        shift, and go to state 41
+    tSTRUCT        shift, and go to state 42
+    tUNION         shift, and go to state 43
+    tVOID          shift, and go to state 44
+    '['            shift, and go to state 46
+
+    type  go to state 160
+
+
+State 123
+
+   48 declaration: tIDENTIFIER_DECL type_omittable '=' exp . ';'
+   67 exp: exp . '*' exp
+   68    | exp . '/' exp
+   69    | exp . '+' exp
+   70    | exp . '-' exp
+   71    | exp . tEQUALITY exp
+   72    | exp . tOR exp
+   73    | exp . tAND exp
+   74    | exp . tNON_EQUALITY exp
+   75    | exp . tGREATER_EQUAL exp
+   76    | exp . tLESSER_EQUAL exp
+   77    | exp . '>' exp
+   78    | exp . '<' exp
+
+    tEQUALITY       shift, and go to state 104
+    tLESSER_EQUAL   shift, and go to state 105
+    tGREATER_EQUAL  shift, and go to state 106
+    tNON_EQUALITY   shift, and go to state 107
+    tAND            shift, and go to state 108
+    tOR             shift, and go to state 109
+    '<'             shift, and go to state 110
+    '>'             shift, and go to state 111
+    '+'             shift, and go to state 112
+    '-'             shift, and go to state 113
+    '*'             shift, and go to state 114
+    '/'             shift, and go to state 115
+    ';'             shift, and go to state 161
+
+
+State 124
+
+   11 function: head '{' body '}' .
+
+    $default  reduce using rule 11 (function)
+
+
+State 125
+
+   42 var_type: tIDENTIFIER_DECL type .
+
+    $default  reduce using rule 42 (var_type)
+
+
+State 126
+
+   51 statement: tRETURN exp ';' .
+
+    $default  reduce using rule 51 (statement)
+
+
+State 127
+
+   60 statement: tIF exp statement .  [$end, tIDENTIFIER, tRETURN, tIF, tELSE, tALLOCATE, tWHILE, tPRINT, '{', '}']
+   61          | tIF exp statement . tELSE statement
+
+    tELSE  shift, and go to state 162
+
+    tELSE     [reduce using rule 60 (statement)]
+    $default  reduce using rule 60 (statement)
+
+
+State 128
+
+    3 string: . tSTRING
+    4       | . tSTRING '+' tSTRING
+   54 statement: tALLOCATE variable tOF_LENGTH . exp ';'
+   64 variable: . tIDENTIFIER
+   65         | . variable '[' exp ']'
+   66         | . variable '.' tIDENTIFIER
+   67 exp: . exp '*' exp
+   68    | . exp '/' exp
+   69    | . exp '+' exp
+   70    | . exp '-' exp
+   71    | . exp tEQUALITY exp
+   72    | . exp tOR exp
+   73    | . exp tAND exp
+   74    | . exp tNON_EQUALITY exp
+   75    | . exp tGREATER_EQUAL exp
+   76    | . exp tLESSER_EQUAL exp
+   77    | . exp '>' exp
+   78    | . exp '<' exp
+   79    | . term
+   80 term: . variable
+   81     | . tIDENTIFIER '(' act_list ')'
+   82     | . '(' exp ')'
+   83     | . '!' term
+   84     | . '|' exp '|'
+   85     | . tINTCONST
+   86     | . tTRUE
+   87     | . tFALSE
+   88     | . tNULL
+   89     | . string
+
+    tINTCONST    shift, and go to state 61
+    tIDENTIFIER  shift, and go to state 62
+    tSTRING      shift, and go to state 63
+    tTRUE        shift, and go to state 64
+    tFALSE       shift, and go to state 65
+    tNULL        shift, and go to state 66
+    '('          shift, and go to state 67
+    '!'          shift, and go to state 68
+    '|'          shift, and go to state 69
+
+    string    go to state 70
+    variable  go to state 71
+    exp       go to state 163
+    term      go to state 73
+
+
+State 129
+
+   53 statement: tALLOCATE variable ';' .
+
+    $default  reduce using rule 53 (statement)
+
+
+State 130
+
+   62 statement: tWHILE exp statement .
+
+    $default  reduce using rule 62 (statement)
+
+
+State 131
+
+   52 statement: tPRINT exp ';' .
+
+    $default  reduce using rule 52 (statement)
+
+
+State 132
+
+   63 statement: '{' statement_list '}' .
+
+    $default  reduce using rule 63 (statement)
+
+
+State 133
+
+   56 statement: variable tPLUS_EQUAL exp . ';'
+   67 exp: exp . '*' exp
+   68    | exp . '/' exp
+   69    | exp . '+' exp
+   70    | exp . '-' exp
+   71    | exp . tEQUALITY exp
+   72    | exp . tOR exp
+   73    | exp . tAND exp
+   74    | exp . tNON_EQUALITY exp
+   75    | exp . tGREATER_EQUAL exp
+   76    | exp . tLESSER_EQUAL exp
+   77    | exp . '>' exp
+   78    | exp . '<' exp
+
+    tEQUALITY       shift, and go to state 104
+    tLESSER_EQUAL   shift, and go to state 105
+    tGREATER_EQUAL  shift, and go to state 106
+    tNON_EQUALITY   shift, and go to state 107
+    tAND            shift, and go to state 108
+    tOR             shift, and go to state 109
+    '<'             shift, and go to state 110
+    '>'             shift, and go to state 111
+    '+'             shift, and go to state 112
+    '-'             shift, and go to state 113
+    '*'             shift, and go to state 114
+    '/'             shift, and go to state 115
+    ';'             shift, and go to state 164
+
+
+State 134
+
+   57 statement: variable tMINUS_EQUAL exp . ';'
+   67 exp: exp . '*' exp
+   68    | exp . '/' exp
+   69    | exp . '+' exp
+   70    | exp . '-' exp
+   71    | exp . tEQUALITY exp
+   72    | exp . tOR exp
+   73    | exp . tAND exp
+   74    | exp . tNON_EQUALITY exp
+   75    | exp . tGREATER_EQUAL exp
+   76    | exp . tLESSER_EQUAL exp
+   77    | exp . '>' exp
+   78    | exp . '<' exp
+
+    tEQUALITY       shift, and go to state 104
+    tLESSER_EQUAL   shift, and go to state 105
+    tGREATER_EQUAL  shift, and go to state 106
+    tNON_EQUALITY   shift, and go to state 107
+    tAND            shift, and go to state 108
+    tOR             shift, and go to state 109
+    '<'             shift, and go to state 110
+    '>'             shift, and go to state 111
+    '+'             shift, and go to state 112
+    '-'             shift, and go to state 113
+    '*'             shift, and go to state 114
+    '/'             shift, and go to state 115
+    ';'             shift, and go to state 165
+
+
+State 135
+
+   58 statement: variable tTIMES_EQUAL exp . ';'
+   67 exp: exp . '*' exp
+   68    | exp . '/' exp
+   69    | exp . '+' exp
+   70    | exp . '-' exp
+   71    | exp . tEQUALITY exp
+   72    | exp . tOR exp
+   73    | exp . tAND exp
+   74    | exp . tNON_EQUALITY exp
+   75    | exp . tGREATER_EQUAL exp
+   76    | exp . tLESSER_EQUAL exp
+   77    | exp . '>' exp
+   78    | exp . '<' exp
+
+    tEQUALITY       shift, and go to state 104
+    tLESSER_EQUAL   shift, and go to state 105
+    tGREATER_EQUAL  shift, and go to state 106
+    tNON_EQUALITY   shift, and go to state 107
+    tAND            shift, and go to state 108
+    tOR             shift, and go to state 109
+    '<'             shift, and go to state 110
+    '>'             shift, and go to state 111
+    '+'             shift, and go to state 112
+    '-'             shift, and go to state 113
+    '*'             shift, and go to state 114
+    '/'             shift, and go to state 115
+    ';'             shift, and go to state 166
+
+
+State 136
+
+   59 statement: variable tDIVIDE_EQUAL exp . ';'
+   67 exp: exp . '*' exp
+   68    | exp . '/' exp
+   69    | exp . '+' exp
+   70    | exp . '-' exp
+   71    | exp . tEQUALITY exp
+   72    | exp . tOR exp
+   73    | exp . tAND exp
+   74    | exp . tNON_EQUALITY exp
+   75    | exp . tGREATER_EQUAL exp
+   76    | exp . tLESSER_EQUAL exp
+   77    | exp . '>' exp
+   78    | exp . '<' exp
+
+    tEQUALITY       shift, and go to state 104
+    tLESSER_EQUAL   shift, and go to state 105
+    tGREATER_EQUAL  shift, and go to state 106
+    tNON_EQUALITY   shift, and go to state 107
+    tAND            shift, and go to state 108
+    tOR             shift, and go to state 109
+    '<'             shift, and go to state 110
+    '>'             shift, and go to state 111
+    '+'             shift, and go to state 112
+    '-'             shift, and go to state 113
+    '*'             shift, and go to state 114
+    '/'             shift, and go to state 115
+    ';'             shift, and go to state 167
+
+
+State 137
+
+   65 variable: variable '[' exp . ']'
+   67 exp: exp . '*' exp
+   68    | exp . '/' exp
+   69    | exp . '+' exp
+   70    | exp . '-' exp
+   71    | exp . tEQUALITY exp
+   72    | exp . tOR exp
+   73    | exp . tAND exp
+   74    | exp . tNON_EQUALITY exp
+   75    | exp . tGREATER_EQUAL exp
+   76    | exp . tLESSER_EQUAL exp
+   77    | exp . '>' exp
+   78    | exp . '<' exp
+
+    tEQUALITY       shift, and go to state 104
+    tLESSER_EQUAL   shift, and go to state 105
+    tGREATER_EQUAL  shift, and go to state 106
+    tNON_EQUALITY   shift, and go to state 107
+    tAND            shift, and go to state 108
+    tOR             shift, and go to state 109
+    '<'             shift, and go to state 110
+    '>'             shift, and go to state 111
+    '+'             shift, and go to state 112
+    '-'             shift, and go to state 113
+    '*'             shift, and go to state 114
+    '/'             shift, and go to state 115
+    ']'             shift, and go to state 168
+
+
+State 138
+
+   55 statement: variable '=' exp . ';'
+   67 exp: exp . '*' exp
+   68    | exp . '/' exp
+   69    | exp . '+' exp
+   70    | exp . '-' exp
+   71    | exp . tEQUALITY exp
+   72    | exp . tOR exp
+   73    | exp . tAND exp
+   74    | exp . tNON_EQUALITY exp
+   75    | exp . tGREATER_EQUAL exp
+   76    | exp . tLESSER_EQUAL exp
+   77    | exp . '>' exp
+   78    | exp . '<' exp
+
+    tEQUALITY       shift, and go to state 104
+    tLESSER_EQUAL   shift, and go to state 105
+    tGREATER_EQUAL  shift, and go to state 106
+    tNON_EQUALITY   shift, and go to state 107
+    tAND            shift, and go to state 108
+    tOR             shift, and go to state 109
+    '<'             shift, and go to state 110
+    '>'             shift, and go to state 111
+    '+'             shift, and go to state 112
+    '-'             shift, and go to state 113
+    '*'             shift, and go to state 114
+    '/'             shift, and go to state 115
+    ';'             shift, and go to state 169
+
+
+State 139
+
+   66 variable: variable '.' tIDENTIFIER .
+
+    $default  reduce using rule 66 (variable)
+
+
+State 140
+
+   81 term: tIDENTIFIER '(' act_list . ')'
+
+    ')'  shift, and go to state 170
+
+
+State 141
+
+    4 string: tSTRING '+' tSTRING .
+
+    $default  reduce using rule 4 (string)
+
+
+State 142
+
+   82 term: '(' exp ')' .
+
+    $default  reduce using rule 82 (term)
+
+
+State 143
+
+   84 term: '|' exp '|' .
+
+    $default  reduce using rule 84 (term)
+
+
+State 144
+
+   67 exp: exp . '*' exp
+   68    | exp . '/' exp
+   69    | exp . '+' exp
+   70    | exp . '-' exp
+   71    | exp . tEQUALITY exp
+   71    | exp tEQUALITY exp .  [tIDENTIFIER, tEQUALITY, tNON_EQUALITY, tAND, tOR, tRETURN, tIF, tALLOCATE, tWHILE, tPRINT, ')', '{', ']', ',', ';', '|']
+   72    | exp . tOR exp
+   73    | exp . tAND exp
+   74    | exp . tNON_EQUALITY exp
+   75    | exp . tGREATER_EQUAL exp
+   76    | exp . tLESSER_EQUAL exp
+   77    | exp . '>' exp
+   78    | exp . '<' exp
+
+    tLESSER_EQUAL   shift, and go to state 105
+    tGREATER_EQUAL  shift, and go to state 106
+    '<'             shift, and go to state 110
+    '>'             shift, and go to state 111
+    '+'             shift, and go to state 112
+    '-'             shift, and go to state 113
+    '*'             shift, and go to state 114
+    '/'             shift, and go to state 115
+
+    $default  reduce using rule 71 (exp)
+
+    Conflict between rule 71 and token tEQUALITY resolved as reduce (%left tEQUALITY).
+    Conflict between rule 71 and token tLESSER_EQUAL resolved as shift (tEQUALITY < tLESSER_EQUAL).
+    Conflict between rule 71 and token tGREATER_EQUAL resolved as shift (tEQUALITY < tGREATER_EQUAL).
+    Conflict between rule 71 and token tNON_EQUALITY resolved as reduce (%left tNON_EQUALITY).
+    Conflict between rule 71 and token tAND resolved as reduce (tAND < tEQUALITY).
+    Conflict between rule 71 and token tOR resolved as reduce (tOR < tEQUALITY).
+    Conflict between rule 71 and token '<' resolved as shift (tEQUALITY < '<').
+    Conflict between rule 71 and token '>' resolved as shift (tEQUALITY < '>').
+    Conflict between rule 71 and token '+' resolved as shift (tEQUALITY < '+').
+    Conflict between rule 71 and token '-' resolved as shift (tEQUALITY < '-').
+    Conflict between rule 71 and token '*' resolved as shift (tEQUALITY < '*').
+    Conflict between rule 71 and token '/' resolved as shift (tEQUALITY < '/').
+
+
+State 145
+
+   67 exp: exp . '*' exp
+   68    | exp . '/' exp
+   69    | exp . '+' exp
+   70    | exp . '-' exp
+   71    | exp . tEQUALITY exp
+   72    | exp . tOR exp
+   73    | exp . tAND exp
+   74    | exp . tNON_EQUALITY exp
+   75    | exp . tGREATER_EQUAL exp
+   76    | exp . tLESSER_EQUAL exp
+   76    | exp tLESSER_EQUAL exp .  [tIDENTIFIER, tEQUALITY, tLESSER_EQUAL, tGREATER_EQUAL, tNON_EQUALITY, tAND, tOR, tRETURN, tIF, tALLOCATE, tWHILE, tPRINT, '<', '>', ')', '{', ']', ',', ';', '|']
+   77    | exp . '>' exp
+   78    | exp . '<' exp
+
+    '+'  shift, and go to state 112
+    '-'  shift, and go to state 113
+    '*'  shift, and go to state 114
+    '/'  shift, and go to state 115
+
+    $default  reduce using rule 76 (exp)
+
+    Conflict between rule 76 and token tEQUALITY resolved as reduce (tEQUALITY < tLESSER_EQUAL).
+    Conflict between rule 76 and token tLESSER_EQUAL resolved as reduce (%left tLESSER_EQUAL).
+    Conflict between rule 76 and token tGREATER_EQUAL resolved as reduce (%left tGREATER_EQUAL).
+    Conflict between rule 76 and token tNON_EQUALITY resolved as reduce (tNON_EQUALITY < tLESSER_EQUAL).
+    Conflict between rule 76 and token tAND resolved as reduce (tAND < tLESSER_EQUAL).
+    Conflict between rule 76 and token tOR resolved as reduce (tOR < tLESSER_EQUAL).
+    Conflict between rule 76 and token '<' resolved as reduce (%left '<').
+    Conflict between rule 76 and token '>' resolved as reduce (%left '>').
+    Conflict between rule 76 and token '+' resolved as shift (tLESSER_EQUAL < '+').
+    Conflict between rule 76 and token '-' resolved as shift (tLESSER_EQUAL < '-').
+    Conflict between rule 76 and token '*' resolved as shift (tLESSER_EQUAL < '*').
+    Conflict between rule 76 and token '/' resolved as shift (tLESSER_EQUAL < '/').
+
+
+State 146
+
+   67 exp: exp . '*' exp
+   68    | exp . '/' exp
+   69    | exp . '+' exp
+   70    | exp . '-' exp
+   71    | exp . tEQUALITY exp
+   72    | exp . tOR exp
+   73    | exp . tAND exp
+   74    | exp . tNON_EQUALITY exp
+   75    | exp . tGREATER_EQUAL exp
+   75    | exp tGREATER_EQUAL exp .  [tIDENTIFIER, tEQUALITY, tLESSER_EQUAL, tGREATER_EQUAL, tNON_EQUALITY, tAND, tOR, tRETURN, tIF, tALLOCATE, tWHILE, tPRINT, '<', '>', ')', '{', ']', ',', ';', '|']
+   76    | exp . tLESSER_EQUAL exp
+   77    | exp . '>' exp
+   78    | exp . '<' exp
+
+    '+'  shift, and go to state 112
+    '-'  shift, and go to state 113
+    '*'  shift, and go to state 114
+    '/'  shift, and go to state 115
+
+    $default  reduce using rule 75 (exp)
+
+    Conflict between rule 75 and token tEQUALITY resolved as reduce (tEQUALITY < tGREATER_EQUAL).
+    Conflict between rule 75 and token tLESSER_EQUAL resolved as reduce (%left tLESSER_EQUAL).
+    Conflict between rule 75 and token tGREATER_EQUAL resolved as reduce (%left tGREATER_EQUAL).
+    Conflict between rule 75 and token tNON_EQUALITY resolved as reduce (tNON_EQUALITY < tGREATER_EQUAL).
+    Conflict between rule 75 and token tAND resolved as reduce (tAND < tGREATER_EQUAL).
+    Conflict between rule 75 and token tOR resolved as reduce (tOR < tGREATER_EQUAL).
+    Conflict between rule 75 and token '<' resolved as reduce (%left '<').
+    Conflict between rule 75 and token '>' resolved as reduce (%left '>').
+    Conflict between rule 75 and token '+' resolved as shift (tGREATER_EQUAL < '+').
+    Conflict between rule 75 and token '-' resolved as shift (tGREATER_EQUAL < '-').
+    Conflict between rule 75 and token '*' resolved as shift (tGREATER_EQUAL < '*').
+    Conflict between rule 75 and token '/' resolved as shift (tGREATER_EQUAL < '/').
+
+
+State 147
+
+   67 exp: exp . '*' exp
+   68    | exp . '/' exp
+   69    | exp . '+' exp
+   70    | exp . '-' exp
+   71    | exp . tEQUALITY exp
+   72    | exp . tOR exp
+   73    | exp . tAND exp
+   74    | exp . tNON_EQUALITY exp
+   74    | exp tNON_EQUALITY exp .  [tIDENTIFIER, tEQUALITY, tNON_EQUALITY, tAND, tOR, tRETURN, tIF, tALLOCATE, tWHILE, tPRINT, ')', '{', ']', ',', ';', '|']
+   75    | exp . tGREATER_EQUAL exp
+   76    | exp . tLESSER_EQUAL exp
+   77    | exp . '>' exp
+   78    | exp . '<' exp
+
+    tLESSER_EQUAL   shift, and go to state 105
+    tGREATER_EQUAL  shift, and go to state 106
+    '<'             shift, and go to state 110
+    '>'             shift, and go to state 111
+    '+'             shift, and go to state 112
+    '-'             shift, and go to state 113
+    '*'             shift, and go to state 114
+    '/'             shift, and go to state 115
+
+    $default  reduce using rule 74 (exp)
+
+    Conflict between rule 74 and token tEQUALITY resolved as reduce (%left tEQUALITY).
+    Conflict between rule 74 and token tLESSER_EQUAL resolved as shift (tNON_EQUALITY < tLESSER_EQUAL).
+    Conflict between rule 74 and token tGREATER_EQUAL resolved as shift (tNON_EQUALITY < tGREATER_EQUAL).
+    Conflict between rule 74 and token tNON_EQUALITY resolved as reduce (%left tNON_EQUALITY).
+    Conflict between rule 74 and token tAND resolved as reduce (tAND < tNON_EQUALITY).
+    Conflict between rule 74 and token tOR resolved as reduce (tOR < tNON_EQUALITY).
+    Conflict between rule 74 and token '<' resolved as shift (tNON_EQUALITY < '<').
+    Conflict between rule 74 and token '>' resolved as shift (tNON_EQUALITY < '>').
+    Conflict between rule 74 and token '+' resolved as shift (tNON_EQUALITY < '+').
+    Conflict between rule 74 and token '-' resolved as shift (tNON_EQUALITY < '-').
+    Conflict between rule 74 and token '*' resolved as shift (tNON_EQUALITY < '*').
+    Conflict between rule 74 and token '/' resolved as shift (tNON_EQUALITY < '/').
+
+
+State 148
+
+   67 exp: exp . '*' exp
+   68    | exp . '/' exp
+   69    | exp . '+' exp
+   70    | exp . '-' exp
+   71    | exp . tEQUALITY exp
+   72    | exp . tOR exp
+   73    | exp . tAND exp
+   73    | exp tAND exp .  [tIDENTIFIER, tAND, tOR, tRETURN, tIF, tALLOCATE, tWHILE, tPRINT, ')', '{', ']', ',', ';', '|']
+   74    | exp . tNON_EQUALITY exp
+   75    | exp . tGREATER_EQUAL exp
+   76    | exp . tLESSER_EQUAL exp
+   77    | exp . '>' exp
+   78    | exp . '<' exp
+
+    tEQUALITY       shift, and go to state 104
+    tLESSER_EQUAL   shift, and go to state 105
+    tGREATER_EQUAL  shift, and go to state 106
+    tNON_EQUALITY   shift, and go to state 107
+    '<'             shift, and go to state 110
+    '>'             shift, and go to state 111
+    '+'             shift, and go to state 112
+    '-'             shift, and go to state 113
+    '*'             shift, and go to state 114
+    '/'             shift, and go to state 115
+
+    $default  reduce using rule 73 (exp)
+
+    Conflict between rule 73 and token tEQUALITY resolved as shift (tAND < tEQUALITY).
+    Conflict between rule 73 and token tLESSER_EQUAL resolved as shift (tAND < tLESSER_EQUAL).
+    Conflict between rule 73 and token tGREATER_EQUAL resolved as shift (tAND < tGREATER_EQUAL).
+    Conflict between rule 73 and token tNON_EQUALITY resolved as shift (tAND < tNON_EQUALITY).
+    Conflict between rule 73 and token tAND resolved as reduce (%left tAND).
+    Conflict between rule 73 and token tOR resolved as reduce (tOR < tAND).
+    Conflict between rule 73 and token '<' resolved as shift (tAND < '<').
+    Conflict between rule 73 and token '>' resolved as shift (tAND < '>').
+    Conflict between rule 73 and token '+' resolved as shift (tAND < '+').
+    Conflict between rule 73 and token '-' resolved as shift (tAND < '-').
+    Conflict between rule 73 and token '*' resolved as shift (tAND < '*').
+    Conflict between rule 73 and token '/' resolved as shift (tAND < '/').
+
+
+State 149
+
+   67 exp: exp . '*' exp
+   68    | exp . '/' exp
+   69    | exp . '+' exp
+   70    | exp . '-' exp
+   71    | exp . tEQUALITY exp
+   72    | exp . tOR exp
+   72    | exp tOR exp .  [tIDENTIFIER, tOR, tRETURN, tIF, tALLOCATE, tWHILE, tPRINT, ')', '{', ']', ',', ';', '|']
+   73    | exp . tAND exp
+   74    | exp . tNON_EQUALITY exp
+   75    | exp . tGREATER_EQUAL exp
+   76    | exp . tLESSER_EQUAL exp
+   77    | exp . '>' exp
+   78    | exp . '<' exp
+
+    tEQUALITY       shift, and go to state 104
+    tLESSER_EQUAL   shift, and go to state 105
+    tGREATER_EQUAL  shift, and go to state 106
+    tNON_EQUALITY   shift, and go to state 107
+    tAND            shift, and go to state 108
+    '<'             shift, and go to state 110
+    '>'             shift, and go to state 111
+    '+'             shift, and go to state 112
+    '-'             shift, and go to state 113
+    '*'             shift, and go to state 114
+    '/'             shift, and go to state 115
+
+    $default  reduce using rule 72 (exp)
+
+    Conflict between rule 72 and token tEQUALITY resolved as shift (tOR < tEQUALITY).
+    Conflict between rule 72 and token tLESSER_EQUAL resolved as shift (tOR < tLESSER_EQUAL).
+    Conflict between rule 72 and token tGREATER_EQUAL resolved as shift (tOR < tGREATER_EQUAL).
+    Conflict between rule 72 and token tNON_EQUALITY resolved as shift (tOR < tNON_EQUALITY).
+    Conflict between rule 72 and token tAND resolved as shift (tOR < tAND).
+    Conflict between rule 72 and token tOR resolved as reduce (%left tOR).
+    Conflict between rule 72 and token '<' resolved as shift (tOR < '<').
+    Conflict between rule 72 and token '>' resolved as shift (tOR < '>').
+    Conflict between rule 72 and token '+' resolved as shift (tOR < '+').
+    Conflict between rule 72 and token '-' resolved as shift (tOR < '-').
+    Conflict between rule 72 and token '*' resolved as shift (tOR < '*').
+    Conflict between rule 72 and token '/' resolved as shift (tOR < '/').
+
+
+State 150
+
+   67 exp: exp . '*' exp
+   68    | exp . '/' exp
+   69    | exp . '+' exp
+   70    | exp . '-' exp
+   71    | exp . tEQUALITY exp
+   72    | exp . tOR exp
+   73    | exp . tAND exp
+   74    | exp . tNON_EQUALITY exp
+   75    | exp . tGREATER_EQUAL exp
+   76    | exp . tLESSER_EQUAL exp
+   77    | exp . '>' exp
+   78    | exp . '<' exp
+   78    | exp '<' exp .  [tIDENTIFIER, tEQUALITY, tLESSER_EQUAL, tGREATER_EQUAL, tNON_EQUALITY, tAND, tOR, tRETURN, tIF, tALLOCATE, tWHILE, tPRINT, '<', '>', ')', '{', ']', ',', ';', '|']
+
+    '+'  shift, and go to state 112
+    '-'  shift, and go to state 113
+    '*'  shift, and go to state 114
+    '/'  shift, and go to state 115
+
+    $default  reduce using rule 78 (exp)
+
+    Conflict between rule 78 and token tEQUALITY resolved as reduce (tEQUALITY < '<').
+    Conflict between rule 78 and token tLESSER_EQUAL resolved as reduce (%left tLESSER_EQUAL).
+    Conflict between rule 78 and token tGREATER_EQUAL resolved as reduce (%left tGREATER_EQUAL).
+    Conflict between rule 78 and token tNON_EQUALITY resolved as reduce (tNON_EQUALITY < '<').
+    Conflict between rule 78 and token tAND resolved as reduce (tAND < '<').
+    Conflict between rule 78 and token tOR resolved as reduce (tOR < '<').
+    Conflict between rule 78 and token '<' resolved as reduce (%left '<').
+    Conflict between rule 78 and token '>' resolved as reduce (%left '>').
+    Conflict between rule 78 and token '+' resolved as shift ('<' < '+').
+    Conflict between rule 78 and token '-' resolved as shift ('<' < '-').
+    Conflict between rule 78 and token '*' resolved as shift ('<' < '*').
+    Conflict between rule 78 and token '/' resolved as shift ('<' < '/').
+
+
+State 151
+
+   67 exp: exp . '*' exp
+   68    | exp . '/' exp
+   69    | exp . '+' exp
+   70    | exp . '-' exp
+   71    | exp . tEQUALITY exp
+   72    | exp . tOR exp
+   73    | exp . tAND exp
+   74    | exp . tNON_EQUALITY exp
+   75    | exp . tGREATER_EQUAL exp
+   76    | exp . tLESSER_EQUAL exp
+   77    | exp . '>' exp
+   77    | exp '>' exp .  [tIDENTIFIER, tEQUALITY, tLESSER_EQUAL, tGREATER_EQUAL, tNON_EQUALITY, tAND, tOR, tRETURN, tIF, tALLOCATE, tWHILE, tPRINT, '<', '>', ')', '{', ']', ',', ';', '|']
+   78    | exp . '<' exp
+
+    '+'  shift, and go to state 112
+    '-'  shift, and go to state 113
+    '*'  shift, and go to state 114
+    '/'  shift, and go to state 115
+
+    $default  reduce using rule 77 (exp)
+
+    Conflict between rule 77 and token tEQUALITY resolved as reduce (tEQUALITY < '>').
+    Conflict between rule 77 and token tLESSER_EQUAL resolved as reduce (%left tLESSER_EQUAL).
+    Conflict between rule 77 and token tGREATER_EQUAL resolved as reduce (%left tGREATER_EQUAL).
+    Conflict between rule 77 and token tNON_EQUALITY resolved as reduce (tNON_EQUALITY < '>').
+    Conflict between rule 77 and token tAND resolved as reduce (tAND < '>').
+    Conflict between rule 77 and token tOR resolved as reduce (tOR < '>').
+    Conflict between rule 77 and token '<' resolved as reduce (%left '<').
+    Conflict between rule 77 and token '>' resolved as reduce (%left '>').
+    Conflict between rule 77 and token '+' resolved as shift ('>' < '+').
+    Conflict between rule 77 and token '-' resolved as shift ('>' < '-').
+    Conflict between rule 77 and token '*' resolved as shift ('>' < '*').
+    Conflict between rule 77 and token '/' resolved as shift ('>' < '/').
+
+
+State 152
+
+   67 exp: exp . '*' exp
+   68    | exp . '/' exp
+   69    | exp . '+' exp
+   69    | exp '+' exp .  [tIDENTIFIER, tEQUALITY, tLESSER_EQUAL, tGREATER_EQUAL, tNON_EQUALITY, tAND, tOR, tRETURN, tIF, tALLOCATE, tWHILE, tPRINT, '<', '>', '+', '-', ')', '{', ']', ',', ';', '|']
+   70    | exp . '-' exp
+   71    | exp . tEQUALITY exp
+   72    | exp . tOR exp
+   73    | exp . tAND exp
+   74    | exp . tNON_EQUALITY exp
+   75    | exp . tGREATER_EQUAL exp
+   76    | exp . tLESSER_EQUAL exp
+   77    | exp . '>' exp
+   78    | exp . '<' exp
+
+    '*'  shift, and go to state 114
+    '/'  shift, and go to state 115
+
+    $default  reduce using rule 69 (exp)
+
+    Conflict between rule 69 and token tEQUALITY resolved as reduce (tEQUALITY < '+').
+    Conflict between rule 69 and token tLESSER_EQUAL resolved as reduce (tLESSER_EQUAL < '+').
+    Conflict between rule 69 and token tGREATER_EQUAL resolved as reduce (tGREATER_EQUAL < '+').
+    Conflict between rule 69 and token tNON_EQUALITY resolved as reduce (tNON_EQUALITY < '+').
+    Conflict between rule 69 and token tAND resolved as reduce (tAND < '+').
+    Conflict between rule 69 and token tOR resolved as reduce (tOR < '+').
+    Conflict between rule 69 and token '<' resolved as reduce ('<' < '+').
+    Conflict between rule 69 and token '>' resolved as reduce ('>' < '+').
+    Conflict between rule 69 and token '+' resolved as reduce (%left '+').
+    Conflict between rule 69 and token '-' resolved as reduce (%left '-').
+    Conflict between rule 69 and token '*' resolved as shift ('+' < '*').
+    Conflict between rule 69 and token '/' resolved as shift ('+' < '/').
+
+
+State 153
+
+   67 exp: exp . '*' exp
+   68    | exp . '/' exp
+   69    | exp . '+' exp
+   70    | exp . '-' exp
+   70    | exp '-' exp .  [tIDENTIFIER, tEQUALITY, tLESSER_EQUAL, tGREATER_EQUAL, tNON_EQUALITY, tAND, tOR, tRETURN, tIF, tALLOCATE, tWHILE, tPRINT, '<', '>', '+', '-', ')', '{', ']', ',', ';', '|']
+   71    | exp . tEQUALITY exp
+   72    | exp . tOR exp
+   73    | exp . tAND exp
+   74    | exp . tNON_EQUALITY exp
+   75    | exp . tGREATER_EQUAL exp
+   76    | exp . tLESSER_EQUAL exp
+   77    | exp . '>' exp
+   78    | exp . '<' exp
+
+    '*'  shift, and go to state 114
+    '/'  shift, and go to state 115
+
+    $default  reduce using rule 70 (exp)
+
+    Conflict between rule 70 and token tEQUALITY resolved as reduce (tEQUALITY < '-').
+    Conflict between rule 70 and token tLESSER_EQUAL resolved as reduce (tLESSER_EQUAL < '-').
+    Conflict between rule 70 and token tGREATER_EQUAL resolved as reduce (tGREATER_EQUAL < '-').
+    Conflict between rule 70 and token tNON_EQUALITY resolved as reduce (tNON_EQUALITY < '-').
+    Conflict between rule 70 and token tAND resolved as reduce (tAND < '-').
+    Conflict between rule 70 and token tOR resolved as reduce (tOR < '-').
+    Conflict between rule 70 and token '<' resolved as reduce ('<' < '-').
+    Conflict between rule 70 and token '>' resolved as reduce ('>' < '-').
+    Conflict between rule 70 and token '+' resolved as reduce (%left '+').
+    Conflict between rule 70 and token '-' resolved as reduce (%left '-').
+    Conflict between rule 70 and token '*' resolved as shift ('-' < '*').
+    Conflict between rule 70 and token '/' resolved as shift ('-' < '/').
+
+
+State 154
+
+   67 exp: exp . '*' exp
+   67    | exp '*' exp .  [tIDENTIFIER, tEQUALITY, tLESSER_EQUAL, tGREATER_EQUAL, tNON_EQUALITY, tAND, tOR, tRETURN, tIF, tALLOCATE, tWHILE, tPRINT, '<', '>', '+', '-', '*', '/', ')', '{', ']', ',', ';', '|']
+   68    | exp . '/' exp
+   69    | exp . '+' exp
+   70    | exp . '-' exp
+   71    | exp . tEQUALITY exp
+   72    | exp . tOR exp
+   73    | exp . tAND exp
+   74    | exp . tNON_EQUALITY exp
+   75    | exp . tGREATER_EQUAL exp
+   76    | exp . tLESSER_EQUAL exp
+   77    | exp . '>' exp
+   78    | exp . '<' exp
+
+    $default  reduce using rule 67 (exp)
+
+    Conflict between rule 67 and token tEQUALITY resolved as reduce (tEQUALITY < '*').
+    Conflict between rule 67 and token tLESSER_EQUAL resolved as reduce (tLESSER_EQUAL < '*').
+    Conflict between rule 67 and token tGREATER_EQUAL resolved as reduce (tGREATER_EQUAL < '*').
+    Conflict between rule 67 and token tNON_EQUALITY resolved as reduce (tNON_EQUALITY < '*').
+    Conflict between rule 67 and token tAND resolved as reduce (tAND < '*').
+    Conflict between rule 67 and token tOR resolved as reduce (tOR < '*').
+    Conflict between rule 67 and token '<' resolved as reduce ('<' < '*').
+    Conflict between rule 67 and token '>' resolved as reduce ('>' < '*').
+    Conflict between rule 67 and token '+' resolved as reduce ('+' < '*').
+    Conflict between rule 67 and token '-' resolved as reduce ('-' < '*').
+    Conflict between rule 67 and token '*' resolved as reduce (%left '*').
+    Conflict between rule 67 and token '/' resolved as reduce (%left '/').
+
+
+State 155
+
+   67 exp: exp . '*' exp
+   68    | exp . '/' exp
+   68    | exp '/' exp .  [tIDENTIFIER, tEQUALITY, tLESSER_EQUAL, tGREATER_EQUAL, tNON_EQUALITY, tAND, tOR, tRETURN, tIF, tALLOCATE, tWHILE, tPRINT, '<', '>', '+', '-', '*', '/', ')', '{', ']', ',', ';', '|']
+   69    | exp . '+' exp
+   70    | exp . '-' exp
+   71    | exp . tEQUALITY exp
+   72    | exp . tOR exp
+   73    | exp . tAND exp
+   74    | exp . tNON_EQUALITY exp
+   75    | exp . tGREATER_EQUAL exp
+   76    | exp . tLESSER_EQUAL exp
+   77    | exp . '>' exp
+   78    | exp . '<' exp
+
+    $default  reduce using rule 68 (exp)
+
+    Conflict between rule 68 and token tEQUALITY resolved as reduce (tEQUALITY < '/').
+    Conflict between rule 68 and token tLESSER_EQUAL resolved as reduce (tLESSER_EQUAL < '/').
+    Conflict between rule 68 and token tGREATER_EQUAL resolved as reduce (tGREATER_EQUAL < '/').
+    Conflict between rule 68 and token tNON_EQUALITY resolved as reduce (tNON_EQUALITY < '/').
+    Conflict between rule 68 and token tAND resolved as reduce (tAND < '/').
+    Conflict between rule 68 and token tOR resolved as reduce (tOR < '/').
+    Conflict between rule 68 and token '<' resolved as reduce ('<' < '/').
+    Conflict between rule 68 and token '>' resolved as reduce ('>' < '/').
+    Conflict between rule 68 and token '+' resolved as reduce ('+' < '/').
+    Conflict between rule 68 and token '-' resolved as reduce ('-' < '/').
+    Conflict between rule 68 and token '*' resolved as reduce (%left '*').
+    Conflict between rule 68 and token '/' resolved as reduce (%left '/').
+
+
+State 156
+
+   93 exp_list: exp ',' exp_list .
+
+    $default  reduce using rule 93 (exp_list)
+
+
+State 157
+
+   22 type: tSTRUCT property '{' var_decl_list . '}'
+
+    '}'  shift, and go to state 171
+
+
+State 158
+
+   36 type: tUNION '{' var_decl_list '}' .
+
+    $default  reduce using rule 36 (type)
+
+
+State 159
+
+   12 head: tIDENTIFIER_DECL ':' '(' par_decl_list ')' . tRIGHT_ARROW type
+
+    tRIGHT_ARROW  shift, and go to state 172
+
+
+State 160
+
+   21 type: '[' array_length ']' type .
+
+    $default  reduce using rule 21 (type)
+
+
+State 161
+
+   48 declaration: tIDENTIFIER_DECL type_omittable '=' exp ';' .
+
+    $default  reduce using rule 48 (declaration)
+
+
+State 162
+
+   51 statement: . tRETURN exp ';'
+   52          | . tPRINT exp ';'
+   53          | . tALLOCATE variable ';'
+   54          | . tALLOCATE variable tOF_LENGTH exp ';'
+   55          | . variable '=' exp ';'
+   56          | . variable tPLUS_EQUAL exp ';'
+   57          | . variable tMINUS_EQUAL exp ';'
+   58          | . variable tTIMES_EQUAL exp ';'
+   59          | . variable tDIVIDE_EQUAL exp ';'
+   60          | . tIF exp statement
+   61          | . tIF exp statement tELSE statement
+   61          | tIF exp statement tELSE . statement
+   62          | . tWHILE exp statement
+   63          | . '{' statement_list '}'
+   64 variable: . tIDENTIFIER
+   65         | . variable '[' exp ']'
+   66         | . variable '.' tIDENTIFIER
+
+    tIDENTIFIER  shift, and go to state 52
+    tRETURN      shift, and go to state 53
+    tIF          shift, and go to state 54
+    tALLOCATE    shift, and go to state 55
+    tWHILE       shift, and go to state 56
+    tPRINT       shift, and go to state 57
+    '{'          shift, and go to state 58
+
+    statement  go to state 173
+    variable   go to state 60
+
+
+State 163
+
+   54 statement: tALLOCATE variable tOF_LENGTH exp . ';'
+   67 exp: exp . '*' exp
+   68    | exp . '/' exp
+   69    | exp . '+' exp
+   70    | exp . '-' exp
+   71    | exp . tEQUALITY exp
+   72    | exp . tOR exp
+   73    | exp . tAND exp
+   74    | exp . tNON_EQUALITY exp
+   75    | exp . tGREATER_EQUAL exp
+   76    | exp . tLESSER_EQUAL exp
+   77    | exp . '>' exp
+   78    | exp . '<' exp
+
+    tEQUALITY       shift, and go to state 104
+    tLESSER_EQUAL   shift, and go to state 105
+    tGREATER_EQUAL  shift, and go to state 106
+    tNON_EQUALITY   shift, and go to state 107
+    tAND            shift, and go to state 108
+    tOR             shift, and go to state 109
+    '<'             shift, and go to state 110
+    '>'             shift, and go to state 111
+    '+'             shift, and go to state 112
+    '-'             shift, and go to state 113
+    '*'             shift, and go to state 114
+    '/'             shift, and go to state 115
+    ';'             shift, and go to state 174
+
+
+State 164
+
+   56 statement: variable tPLUS_EQUAL exp ';' .
+
+    $default  reduce using rule 56 (statement)
+
+
+State 165
+
+   57 statement: variable tMINUS_EQUAL exp ';' .
+
+    $default  reduce using rule 57 (statement)
+
+
+State 166
+
+   58 statement: variable tTIMES_EQUAL exp ';' .
+
+    $default  reduce using rule 58 (statement)
+
+
+State 167
+
+   59 statement: variable tDIVIDE_EQUAL exp ';' .
+
+    $default  reduce using rule 59 (statement)
+
+
+State 168
+
+   65 variable: variable '[' exp ']' .
+
+    $default  reduce using rule 65 (variable)
+
+
+State 169
+
+   55 statement: variable '=' exp ';' .
+
+    $default  reduce using rule 55 (statement)
+
+
+State 170
+
+   81 term: tIDENTIFIER '(' act_list ')' .
+
+    $default  reduce using rule 81 (term)
+
+
+State 171
+
+   22 type: tSTRUCT property '{' var_decl_list '}' .
+
+    $default  reduce using rule 22 (type)
+
+
+State 172
+
+   12 head: tIDENTIFIER_DECL ':' '(' par_decl_list ')' tRIGHT_ARROW . type
+   17 type: . tIDENTIFIER
+   18     | . tINT
+   19     | . tBOOL
+   20     | . tSTRING_TOKEN
+   21     | . '[' array_length ']' type
+   22     | . tSTRUCT property '{' var_decl_list '}'
+   23     | . tBYTE
+   24     | . tSHORT
+   25     | . tLONG
+   26     | . tFLOAT
+   27     | . tDOUBLE
+   28     | . tu8
+   29     | . tu16
+   30     | . tu32
+   31     | . tu64
+   32     | . tu128
+   33     | . tu256
+   34     | . tu512
+   35     | . tBITSET
+   36     | . tUNION '{' var_decl_list '}'
+   37     | . tVOID
+
+    tIDENTIFIER    shift, and go to state 25
+    tBYTE          shift, and go to state 26
+    tINT           shift, and go to state 27
+    tSHORT         shift, and go to state 28
+    tLONG          shift, and go to state 29
+    tFLOAT         shift, and go to state 30
+    tDOUBLE        shift, and go to state 31
+    tu8            shift, and go to state 32
+    tu16           shift, and go to state 33
+    tu32           shift, and go to state 34
+    tu64           shift, and go to state 35
+    tu128          shift, and go to state 36
+    tu256          shift, and go to state 37
+    tu512          shift, and go to state 38
+    tSTRING_TOKEN  shift, and go to state 39
+    tBOOL          shift, and go to state 40
+    tBITSET        shift, and go to state 41
+    tSTRUCT        shift, and go to state 42
+    tUNION         shift, and go to state 43
+    tVOID          shift, and go to state 44
+    '['            shift, and go to state 46
+
+    type  go to state 175
+
+
+State 173
+
+   61 statement: tIF exp statement tELSE statement .
+
+    $default  reduce using rule 61 (statement)
+
+
+State 174
+
+   54 statement: tALLOCATE variable tOF_LENGTH exp ';' .
+
+    $default  reduce using rule 54 (statement)
+
+
+State 175
+
+   12 head: tIDENTIFIER_DECL ':' '(' par_decl_list ')' tRIGHT_ARROW type .
+
+    $default  reduce using rule 12 (head)

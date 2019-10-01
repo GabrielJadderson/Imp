@@ -1,0 +1,174 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="array.cpp" />
+    <ClCompile Include="codegen.cpp" />
+    <ClCompile Include="emit_util.cpp" />
+    <ClCompile Include="falcon_arguments.cpp" />
+    <ClCompile Include="falcon_string.cpp" />
+    <ClCompile Include="file_io.cpp" />
+    <ClCompile Include="graph.cpp" />
+    <ClCompile Include="imp.flex.cpp" />
+    <ClCompile Include="imp.tab.cpp" />
+    <ClCompile Include="ir.cpp" />
+    <ClCompile Include="linked_list.cpp" />
+    <ClCompile Include="logger.cpp" />
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="mc_util.cpp" />
+    <ClCompile Include="memory.cpp" />
+    <ClCompile Include="peephole.cpp" />
+    <ClCompile Include="pretty.cpp" />
+    <ClCompile Include="pre_ir_weed.cpp" />
+    <ClCompile Include="stack.cpp" />
+    <ClCompile Include="symbol.cpp" />
+    <ClCompile Include="tree.cpp" />
+    <ClCompile Include="type_checker.cpp" />
+    <ClCompile Include="weeder.cpp" />
+    <ClCompile Include="pelib\BoundImportDirectory.cpp">
+      <Filter>pelib</Filter>
+    </ClCompile>
+    <ClCompile Include="pelib\CoffSymbolTable.cpp">
+      <Filter>pelib</Filter>
+    </ClCompile>
+    <ClCompile Include="pelib\ComHeaderDirectory.cpp">
+      <Filter>pelib</Filter>
+    </ClCompile>
+    <ClCompile Include="pelib\DebugDirectory.cpp">
+      <Filter>pelib</Filter>
+    </ClCompile>
+    <ClCompile Include="pelib\ExportDirectory.cpp">
+      <Filter>pelib</Filter>
+    </ClCompile>
+    <ClCompile Include="pelib\IatDirectory.cpp">
+      <Filter>pelib</Filter>
+    </ClCompile>
+    <ClCompile Include="pelib\InputBuffer.cpp">
+      <Filter>pelib</Filter>
+    </ClCompile>
+    <ClCompile Include="pelib\MzHeader.cpp">
+      <Filter>pelib</Filter>
+    </ClCompile>
+    <ClCompile Include="pelib\OutputBuffer.cpp">
+      <Filter>pelib</Filter>
+    </ClCompile>
+    <ClCompile Include="pelib\SecurityDirectory.cpp">
+      <Filter>pelib</Filter>
+    </ClCompile>
+    <ClCompile Include="pelib\RichHeader.cpp">
+      <Filter>pelib</Filter>
+    </ClCompile>
+    <ClCompile Include="pelib\ResourceDirectory.cpp">
+      <Filter>pelib</Filter>
+    </ClCompile>
+    <ClCompile Include="pelib\RelocationsDirectory.cpp">
+      <Filter>pelib</Filter>
+    </ClCompile>
+    <ClCompile Include="pelib\PeLibAux.cpp">
+      <Filter>pelib</Filter>
+    </ClCompile>
+    <ClCompile Include="pelib\PeHeader.cpp">
+      <Filter>pelib</Filter>
+    </ClCompile>
+    <ClCompile Include="pelib\PeFile.cpp">
+      <Filter>pelib</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="array.h" />
+    <ClInclude Include="codegen.h" />
+    <ClInclude Include="emit_util.h" />
+    <ClInclude Include="falcon_arguments.h" />
+    <ClInclude Include="falcon_string.h" />
+    <ClInclude Include="file_io.h" />
+    <ClInclude Include="imp.tab.h" />
+    <ClInclude Include="ir.h" />
+    <ClInclude Include="linked_list.h" />
+    <ClInclude Include="logger.h" />
+    <ClInclude Include="memory.h" />
+    <ClInclude Include="peephole.h" />
+    <ClInclude Include="pretty.h" />
+    <ClInclude Include="pre_ir_weed.h" />
+    <ClInclude Include="stack.h" />
+    <ClInclude Include="symbol.h" />
+    <ClInclude Include="tree.h" />
+    <ClInclude Include="type_checker.h" />
+    <ClInclude Include="weeder.h" />
+    <ClInclude Include="pelib\BoundImportDirectory.h">
+      <Filter>pelib</Filter>
+    </ClInclude>
+    <ClInclude Include="pelib\CoffSymbolTable.h">
+      <Filter>pelib</Filter>
+    </ClInclude>
+    <ClInclude Include="pelib\ComHeaderDirectory.h">
+      <Filter>pelib</Filter>
+    </ClInclude>
+    <ClInclude Include="pelib\DebugDirectory.h">
+      <Filter>pelib</Filter>
+    </ClInclude>
+    <ClInclude Include="pelib\DelayImportDirectory.h">
+      <Filter>pelib</Filter>
+    </ClInclude>
+    <ClInclude Include="pelib\ExportDirectory.h">
+      <Filter>pelib</Filter>
+    </ClInclude>
+    <ClInclude Include="pelib\IatDirectory.h">
+      <Filter>pelib</Filter>
+    </ClInclude>
+    <ClInclude Include="pelib\ImportDirectory.h">
+      <Filter>pelib</Filter>
+    </ClInclude>
+    <ClInclude Include="pelib\InputBuffer.h">
+      <Filter>pelib</Filter>
+    </ClInclude>
+    <ClInclude Include="pelib\MzHeader.h">
+      <Filter>pelib</Filter>
+    </ClInclude>
+    <ClInclude Include="pelib\OutputBuffer.h">
+      <Filter>pelib</Filter>
+    </ClInclude>
+    <ClInclude Include="pelib\SecurityDirectory.h">
+      <Filter>pelib</Filter>
+    </ClInclude>
+    <ClInclude Include="pelib\RichHeader.h">
+      <Filter>pelib</Filter>
+    </ClInclude>
+    <ClInclude Include="pelib\ResourceDirectory.h">
+      <Filter>pelib</Filter>
+    </ClInclude>
+    <ClInclude Include="pelib\RelocationsDirectory.h">
+      <Filter>pelib</Filter>
+    </ClInclude>
+    <ClInclude Include="pelib\PeLibInc.h">
+      <Filter>pelib</Filter>
+    </ClInclude>
+    <ClInclude Include="pelib\PeLibAux.h">
+      <Filter>pelib</Filter>
+    </ClInclude>
+    <ClInclude Include="pelib\PeLib.h">
+      <Filter>pelib</Filter>
+    </ClInclude>
+    <ClInclude Include="pelib\PeHeader.h">
+      <Filter>pelib</Filter>
+    </ClInclude>
+    <ClInclude Include="pelib\PeFile.h">
+      <Filter>pelib</Filter>
+    </ClInclude>
+    <ClInclude Include="pelib\TlsDirectory.h">
+      <Filter>pelib</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Bison Include="imp.y" />
+  </ItemGroup>
+  <ItemGroup>
+    <Flex Include="imp.l" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="..\bin\Debug-windows-x86_64\Imp\vm.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="pelib">
+      <UniqueIdentifier>{9e5d9695-4705-4e85-b6ad-f1add4629de5}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>
